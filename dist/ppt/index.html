@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRS 跨境資產合規架構指南 | 15頁專業參考版</title>
+    <style>
+        /* --- 愛馬仕暖米奢華美學調色盤（全面統一，無黑底） --- */
+        :root {
+            --hermes-orange: #FF6600;
+            --charcoal-black: #1A1A1A;
+            --ivory-white: #F5F0EB;
+            --matte-gold: #C5A059;
+            --muted-gray: #7F7F7F;
+            --card-bg: #FFFFFF;
+            --border-line: rgba(26, 26, 26, 0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--ivory-white);
+            color: var(--charcoal-black);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang TC", "Microsoft JhengHei", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
+        }
+
+        /* --- PPT 容器與全螢幕單頁切換 --- */
+        .presentation-container { width: 100vw; height: 100vh; position: relative; }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease-in-out, visibility 0.4s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 10%; 
+            z-index: 1;
+            background-color: var(--ivory-white);
+        }
+
+        .slide.active { opacity: 1; visibility: visible; z-index: 10; }
+
+        /* --- 奢華文字排版規範 --- */
+        .slide-num { font-size: 0.8rem; font-weight: 300; color: var(--muted-gray); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; text-align: center; }
+        .slide-title { font-size: 1.8rem; font-weight: 200; letter-spacing: 0.1em; color: var(--charcoal-black); margin-bottom: 10px; text-align: center; }
+        .slide-subtitle { font-size: 0.85rem; color: var(--muted-gray); letter-spacing: 0.05em; margin-bottom: 30px; text-align: center; }
+
+        /* --- 固定組件：底部團隊行動指引 --- */
+        .action-guide-box {
+            position: absolute;
+            bottom: 75px;
+            left: 10%;
+            right: 10%;
+            border-top: 1px solid var(--hermes-orange);
+            padding-top: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .action-tag { background-color: var(--hermes-orange); color: white; font-size: 0.7rem; font-weight: 400; padding: 2px 8px; letter-spacing: 0.1em; white-space: nowrap; }
+        .action-text { font-size: 0.8rem; color: #444; text-align: justify; font-weight: 300; line-height: 1.5; }
+
+        /* --- 高級 UI 組件 --- */
+        .three-column-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; margin-bottom: 40px; }
+        .premium-card { background: var(--card-bg); border: 1px solid var(--border-line); padding: 20px; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .card-icon-accent { font-size: 1rem; color: var(--hermes-orange); margin-bottom: 10px; font-weight: bold; }
+        .premium-card h4 { font-size: 1rem; font-weight: 400; margin-bottom: 8px; letter-spacing: 0.05em; }
+        .premium-card p { font-size: 0.8rem; color: #555; text-align: justify; line-height: 1.5; }
+
+        .concept-flow { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 40px; }
+        .flow-block { border: 1px solid var(--charcoal-black); padding: 15px; width: 22%; text-align: center; background: white; }
+        .flow-block h4 { font-size: 1rem; font-weight: 400; margin-bottom: 5px; }
+        .flow-block p { font-size: 0.75rem; color: var(--muted-gray); line-height: 1.4; }
+        .flow-arrow { font-size: 1.2rem; color: var(--hermes-orange); font-weight: bold; }
+
+        .trust-box-container { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 950px; margin-bottom: 40px; }
+        .trust-layer { background-color: #FFF; border: 1px solid var(--border-line); border-left: 3px solid var(--hermes-orange); padding: 15px 20px; display: grid; grid-template-columns: 25% 75%; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .layer-title { font-size: 0.9rem; font-weight: 500; letter-spacing: 0.05em; color: var(--charcoal-black); }
+        .layer-desc { font-size: 0.8rem; color: #444; border-left: 1px solid var(--border-line); padding-left: 15px; text-align: justify; line-height: 1.5; }
+
+        .matrix-table { width: 100%; border-collapse: collapse; margin-bottom: 40px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .matrix-table th { border-bottom: 2px solid var(--charcoal-black); padding: 10px; font-size: 0.8rem; font-weight: 500; color: var(--charcoal-black); text-align: left; background: #FAF6F0; }
+        .matrix-table td { border-bottom: 1px solid var(--border-line); padding: 12px 10px; font-size: 0.8rem; vertical-align: top; line-height: 1.5; color: #333; }
+
+        .principles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; margin-bottom: 40px; }
+        .principle-card { border: 1px solid var(--border-line); background: #FFF; padding: 20px; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .principle-badge { position: absolute; top: 15px; right: 20px; font-size: 1.3rem; font-weight: 100; color: rgba(26, 26, 26, 0.08); }
+
+        .vs-matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; width: 100%; margin-bottom: 40px; }
+        .vs-box { padding: 20px; border: 1px solid var(--border-line); background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .vs-box.premium { border: 1px solid var(--matte-gold); background-color: #FAF6F0; }
+        .vs-header { font-size: 1rem; font-weight: 500; margin-bottom: 15px; letter-spacing: 0.05em; display: flex; justify-content: space-between; }
+        .vs-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .vs-list li { font-size: 0.8rem; line-height: 1.5; position: relative; padding-left: 15px; text-align: justify; }
+        .vs-list li::before { content: "•"; position: absolute; left: 0; color: var(--muted-gray); }
+        .vs-box.premium .vs-list li::before { content: "✓"; color: var(--hermes-orange); font-weight: bold; }
+
+        /* --- 控制按鈕與導航列 --- */
+        .controls-bar { position: fixed; bottom: 20px; right: 10%; left: 10%; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+        .slide-dots { display: flex; gap: 8px; flex-wrap: wrap; max-width: 70%; }
+        .dot { width: 6px; height: 6px; border-radius: 50%; background-color: rgba(26, 26, 26, 0.2); transition: all 0.3s; cursor: pointer; }
+        .dot.active { background-color: var(--hermes-orange); transform: scale(1.3); }
+        .btn-group { display: flex; gap: 15px; }
+        
+        .nav-btn { background: transparent; border: 1px solid var(--charcoal-black); color: var(--charcoal-black); padding: 4px 15px; font-size: 0.7rem; letter-spacing: 0.1em; cursor: pointer; transition: all 0.3s; text-transform: uppercase; }
+        .nav-btn:hover { background-color: var(--charcoal-black); color: var(--ivory-white); }
+
+        .cta-action-btn { display: inline-block; margin-top: 10px; padding: 10px 35px; border: 1px solid var(--matte-gold); color: var(--matte-gold); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.15em; transition: all 0.3s; text-transform: uppercase; cursor: pointer; background: transparent; }
+        .cta-action-btn:hover { background-color: var(--matte-gold); color: var(--charcoal-black); box-shadow: 0 5px 20px rgba(197, 160, 89, 0.2); }
+
+        /* --- Mobile Responsive --- */
+        @media (max-width: 768px) {
+            /* Keep slide switching logic intact (absolute + opacity), only adjust layout */
+            .slide {
+                padding: 20px 5% 90px;
+                overflow-y: auto;
+                align-items: center;
+                justify-content: flex-start;
+            }
+            .slide-num { font-size: 0.7rem; margin-bottom: 6px; }
+            .slide-title { font-size: 1.15rem; margin-bottom: 6px; line-height: 1.4; }
+            .slide-subtitle { font-size: 0.78rem; margin-bottom: 16px; }
+
+            .three-column-grid { grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px; }
+            .premium-card { padding: 14px; }
+            .premium-card h4 { font-size: 0.9rem; }
+            .premium-card p { font-size: 0.75rem; }
+            .card-icon-accent { font-size: 0.9rem; }
+
+            .concept-flow {
+                flex-direction: column;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+            .flow-block { width: 100%; padding: 10px; }
+            .flow-block h4 { font-size: 0.9rem; margin-bottom: 4px; }
+            .flow-block p { font-size: 0.72rem; }
+            .flow-arrow { transform: rotate(90deg); font-size: 0.9rem; }
+
+            .trust-box-container { gap: 8px; margin-bottom: 20px; }
+            .trust-layer {
+                grid-template-columns: 1fr;
+                padding: 10px 14px;
+                gap: 6px;
+            }
+            .layer-title { font-size: 0.82rem; }
+            .layer-desc {
+                border-left: none;
+                border-top: 1px solid var(--border-line);
+                padding-left: 0;
+                padding-top: 6px;
+                font-size: 0.75rem;
+            }
+
+            .matrix-table { font-size: 0.72rem; margin-bottom: 20px; display: block; overflow-x: auto; white-space: nowrap; }
+            .matrix-table th, .matrix-table td { padding: 6px 5px; }
+
+            .principles-grid { grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px; }
+            .principle-card { padding: 14px; }
+            .principle-badge { font-size: 1rem; top: 10px; right: 14px; }
+
+            .vs-matrix { grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px; }
+            .vs-box { padding: 14px; }
+            .vs-header { font-size: 0.88rem; margin-bottom: 10px; }
+            .vs-list li { font-size: 0.75rem; gap: 6px; }
+
+            .action-guide-box {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                right: auto;
+                margin-top: 16px;
+                flex-direction: column;
+                gap: 8px;
+                padding-top: 8px;
+            }
+            .action-tag { font-size: 0.62rem; padding: 2px 6px; align-self: flex-start; }
+            .action-text { font-size: 0.72rem; line-height: 1.45; }
+
+            .controls-bar {
+                left: 5%;
+                right: 5%;
+                bottom: 12px;
+            }
+            .slide-dots { gap: 5px; max-width: 60%; }
+            .dot { width: 5px; height: 5px; }
+            .nav-btn { padding: 3px 10px; font-size: 0.6rem; }
+            .btn-group { gap: 8px; }
+
+            .cta-action-btn { padding: 8px 20px; font-size: 0.72rem; margin-top: 6px; }
+
+            /* Inline title styles override for mobile */
+            .slide h1[style*="font-size: 2.5rem"] { font-size: 1.6rem !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+
+        <div class="slide active" id="slide-1">
+            <div class="slide-num">Slide 01 / Master Strategy</div>
+            <h1 class="slide-title" style="font-size: 2.5rem; font-weight: 100; letter-spacing: 0.15em; margin-bottom: 20px;">
+                跨境資產合規<br><span style="color: var(--hermes-orange); font-weight: 200;">架構參考指南</span>
+            </h1>
+            <p class="slide-subtitle">面向專業合夥人的 15 步合規架構參考指南</p>
+            
+            <div style="border: 1px solid var(--matte-gold); padding: 20px 35px; text-align: center; max-width: 650px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                <p style="font-size: 0.85rem; font-weight: 300; line-height: 1.7; color: #333;">
+                    <strong>核心開展宣示：</strong><br>
+                    在兩地國稅局情報自動穿透的時代，傳統不合規配置資產的手法已無法適應當前監管環境。本材料旨在協助專業合夥人理解底層「方法論」，如何利用規則制度反向構建防火牆，協助客戶依法優化申報路徑，確保合規透明。
+                </p>
+            </div>
+
+            <div class="action-guide-box">
+                <span class="action-tag">頂層底氣宣示</span>
+                <p class="action-text">面對高淨值客戶，不要談虛無的行政代辦。前線合夥人的定位是「跨境資產合規架構的專業顧問」，我們交付的是一套經得起大數據稽查的頂層合規防護架構。</p>
+            </div>
+        
+
+            <div style="margin-top: 16px; padding: 10px 14px; background: #FAF6F0; border-left: 3px solid #C5A059; font-size: 0.65rem; color: #777; line-height: 1.5; text-align: justify;">
+                <strong>重要免責聲明：</strong>本材料僅供專業研究參考，不構成正式稅務、法律或投資意見。CRS、CFC、受控外國企業規則及各地稅法具有複雜性與時效性，具體個案應諮詢持牌稅務師、律師及法律顧問。任何架構調整均需以合法合規為前提，不得用於規避法定申報義務。過往未申報的境外收入應主動向稅務機關說明情況。信託及基金架構的設立需遵守各司法管轄區的反洗錢（AML）、實質經濟法規及SFC持牌要求。
+            </div>
+        </div>
+
+        <div class="slide" id="slide-2">
+            <div class="slide-num">Slide 02 / Predator Map</div>
+            <h2 class="slide-title">捕獵者地圖：國稅局是怎樣透過 CRS 順藤摸瓜的？</h2>
+            <p class="slide-subtitle">看清數據遞交鏈條的源頭與終點，才能在關鍵節點實施合規路徑優化</p>
+            
+            <div class="concept-flow">
+                <div class="flow-block">
+                    <span style="font-size: 0.7rem; color: var(--hermes-orange); display: block; margin-bottom: 3px;">01 / 數據抓取源</span>
+                    <h4>境外金融機構</h4>
+                    <p>海外私行/託管銀行後台自動盤點非居民賬戶的資產淨值與收益。</p>
+                </div>
+                <div class="flow-arrow">➔</div>
+                <div class="flow-block">
+                    <span style="font-size: 0.7rem; color: var(--hermes-orange); display: block; margin-bottom: 3px;">02 / 當地匯總</span>
+                    <h4>境外當地國稅局</h4>
+                    <p>每年 9 月，當地國稅局將境內所有非居民金融數據自動打包，雷打不動。</p>
+                </div>
+                <div class="flow-arrow">➔</div>
+                <div class="flow-block">
+                    <span style="font-size: 0.7rem; color: var(--hermes-orange); display: block; margin-bottom: 3px;">03 / 跨境交換</span>
+                    <h4>情報自動交換網</h4>
+                    <p>數據通過 CRS 特設加密管道，無感穿透、直接推送回持有人的境內國稅局。</p>
+                </div>
+                <div class="flow-arrow">➔</div>
+                <div class="flow-block">
+                    <span style="font-size: 0.7rem; color: var(--hermes-orange); display: block; margin-bottom: 3px;">04 / 精準稽查</span>
+                    <h4>大數據自動比對</h4>
+                    <p>境內國稅局系統自動比對：「海外巨額資產」對標「個人零申報」，精準發函稽查。</p>
+                </div>
+            </div>
+        </div>
+
+            <div class="action-guide-box">
+                <span class="action-tag">合夥人核心認知</span>
+                <p class="action-text"><strong>遊戲規則本質：</strong>國稅局抓取的從來不是「人」，而是「金融機構後台自動推送的數據流」。只要數據流動的路徑不變，任何掩耳盜鈴的個人隱匿手段都將在系統面前暴露無遺。</p>
+            </div>
+        </div>
+
+        <div class="slide" id="slide-3">
+            <div class="slide-num">Slide 03 / Tax Weapons</div>
+            <h2 class="slide-title">國稅局的兩大重型武器：CFC 與 Passive NFE 陷阱</h2>
+            <p class="slide-subtitle">傳統廉價中介註冊的「殼公司」，在大數據獵殺模型下存在顯著合規風險</p>
+            
+            <div class="vs-matrix" style="margin-bottom: 30px;">
+                <div class="vs-box">
+                    <div class="vs-header" style="color: #D9534F;">
+                        <span>💥 武器一：CFC（受控外國企業法案）</span>
+                    </div>
+                    <p style="font-size: 0.8rem; line-height: 1.6; text-align: justify; color: #555;">
+                        <strong>專治「境外留存不分紅」：</strong><br>
+                        客戶常誤以為利潤留在境外殼公司（如 BVI）不分紅回國，就不用交稅。內地稅法利用 CFC 規則，可直接判定該公司為受控實體，將境外未分配利潤**「視同分紅」**，直接計入個人的個稅追繳賬單。
+                    </p>
+                </div>
+                <div class="vs-box">
+                    <div class="vs-header" style="color: #D9534F;">
+                        <span>💥 武器二：Passive NFE（消極非金融實體）</span>
+                    </div>
+                    <p style="font-size: 0.8rem; line-height: 1.6; text-align: justify; color: #555;">
+                        <strong>專治「無實質殼公司」：</strong><br>
+                        海外銀行系統會嚴格審查離岸公司的收入結構。若 50% 以上收入為租金、利息、股息等消極收益，將被自動定義為 Passive NFE。銀行將**依法要求穿透識別實益擁有人（UBO），相關信息將納入CRS交換範圍**。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+            <div class="action-guide-box">
+                <span class="action-tag">前線切入痛點</span>
+                <p class="action-text">在拜訪客戶時，可主動詢問其海外公司是否收到過銀行更新 KYC 的通知。如果是，說明該公司正在被銀行系統進行 Passive NFE 風險標記，這正是我們切入全面合規架構設計的黃金時機。</p>
+            </div>
+        </div>
+
+        <div class="slide" id="slide-4">
+            <div class="slide-num">Slide 04 / First Principles</div>
+            <h2 class="slide-title">第一性原理分析：多維度優化的合規架構公式</h2>
+            <p class="slide-subtitle">重塑博弈邏輯，從底層公式出發，將國稅局抓取數據的關鍵因子依法優化</p>
+            
+            <div style="background: var(--matte-gold); color: var(--charcoal-black); width: 100%; padding: 20px; text-align: center; margin-bottom: 40px; font-size: 1.1rem; letter-spacing: 0.05em; font-weight: 400;">
+                捕獵大數據公式：數據被看見 = 金融賬戶 × 消極實體 × 個人持有
+            </div>
+
+            <div class="principles-grid">
+                <div class="principle-card" style="border-top: 3px solid var(--charcoal-black);">
+                    <div class="principle-badge">01</div>
+                    <h4 style="color: var(--hermes-orange); font-weight: 500;">維度一：身分主客對調</h4>
+                    <p style="font-size:0.8rem; color:#333; margin-top:5px; line-height:1.5; font-weight: 400;"><strong>把殼公司變成「金融機構」：</strong><br>利用特殊架構，把殼公司的屬性直接升級成「報告金融機構（FI）」，自己掌握申報主導權，讓零售銀行管不到你。</p>
+                </div>
+                <div class="principle-card" style="border-top: 3px solid var(--hermes-orange);">
+                    <div class="principle-badge">02</div>
+                    <h4 style="color: var(--hermes-orange); font-weight: 500;">維度二：換個名目拿錢</h4>
+                    <p style="font-size:0.8rem; color:#333; margin-top:5px; line-height:1.5; font-weight: 400;"><strong>把「分紅」轉為「還債」：</strong><br>重新設計海外會計科目，資金流出改為「償還股東貸款本金」。還本金不產生納稅義務，但賬戶餘額及年度收入總額仍會被金融機構依法申報。</p>
+                </div>
+                <div class="principle-card" style="border-top: 3px solid var(--matte-gold);">
+                    <div class="principle-badge">03</div>
+                    <h4 style="color: var(--hermes-orange); font-weight: 500;">維度三：資產合法改名</h4>
+                    <p style="font-size:0.8rem; color:#333; margin-top:5px; line-height:1.5; font-weight: 400;"><strong>讓國稅局查到頂層直接撞牆：</strong><br>透過海外信託將「法律所有權」與「個人身份」徹底剝離。你名下資產歸零，大數據雷達找不到你的名字。</p>
+                </div>
+            </div>
+        </div>
+
+            <div class="action-guide-box">
+                <span class="action-tag">合夥人話術底牌</span>
+                <p class="action-text">「張總，與其天天擔心政策怎麼變，不如直接從底層法規框架出發，把可能影響合規效率的因子依法優化。只要其中一個因子依法優化，合規申報路徑將更加清晰透明。」</p>
+            </div>
+        </div>
+
+        <div class="slide" id="slide-5">
+            <div class="slide-num">Slide 05 / Strategy Implementation I</div>
+            <h2 class="slide-title">戰術落地一：身分主客對調（把殼公司變成“金融機構”）</h2>
+            <p class="slide-subtitle">改變實體分類，將申報的控制權從外部零售銀行強行奪回架構內部</p>
+            
+            <div class="three-column-grid">
+                <div class="premium-card">
+                    <div class="card-icon-accent">👑 01. 告別被動挨打</div>
+                    <h4>從 Passive NFE 升級</h4>
+                    <p>一般的離岸殼公司在銀行眼裡，在CRS規則下屬於需要穿透申報的消極實體，銀行依法每年都要把你的餘額打包上報。盲目用 BVI 殼公司就是這個下場。</p>
+                </div>
+                <div class="premium-card">
+                    <div class="card-icon-accent">🔒 02. 自建金融機構</div>
+                    <h4>香港 OFC 基金架構</h4>
+                    <p>我們幫你在香港設立開放式基金公司（OFC），這在法律上直接屬於<strong>「報告金融機構（FI）」</strong>。你的公司地位從此與傳統金融機構平起平坐。</p>
+                </div>
+                <div class="premium-card">
+                    <div class="card-icon-accent">🌐 03. 數據原地鎖定</div>
+                    <h4>依法轉為商業秘密</h4>
+                    <p>既然你自己就是金融機構，你內部的股東名冊和留存利潤就屬於最高商業秘密。外部零售銀行無權也無法自動申報你，數據依法在香港本地進行管理。</p>
+                </div>
+            </div>
+        </div>
+
+            <div class="action-guide-box">
+                <span class="action-tag">方法論核心拆解</span>
+                <p class="action-text">這一步的精髓在於**「優化實體屬性」**。傳統的做法是把資料交給銀行、等銀行去申報；我們的方法論是直接把客戶的實體變成具有獨立申報主導權的「金融機構」，用合規的商業架構將數據管理權依法配置在香港。</p>
+            </div>
+        </div>
+
+        <div class="slide" id="slide-6">
+            <div class="slide-num">Slide 06 / Strategy Implementation II</div>
+            <h2 class="slide-title">戰術落地二：換個名目拿錢（把“分紅”改成“還債”）</h2>
+            <p class="slide-subtitle">利用大數據對「利潤」敏感而對「還款」免疫的特性，打造免稅抽回管道</p>
+            
+            <div class="vs-matrix">
+                <div class="vs-box">
+                    <div class="vs-header" style="color: #D9534F;">
+                        <span>❌ 走常規路徑：稅務成本較高</span>
+                    </div>
+                    <ul class="vs-list">
+                        <li><strong>資產痛點：</strong>香港物業變現款或大額租金，直接匯入香港 SPV 公司。</li>
+                        <li><strong>名目錯誤：</strong>如果帳面不做設計，資金流出只能走<strong>「股東分紅」</strong>。</li>
+                        <li><strong>致命後果：</strong>國稅局雷達對『分紅、利潤、薪水』極其敏感。分紅收入需依法納入個人所得稅申報，適用相應稅率。</li>
+                    </ul>
+                </div>
+                <div class="vs-box premium">
+                    <div class="vs-header" style="color: var(--hermes-orange);">
+                        <span>💎 走我們設計的管道：合規框架下的稅務優化</span>
+                    </div>
+                    <ul class="vs-list">
+                        <li><strong>名目重塑：</strong>在跨境資金建立之初，在會計上不登記為股本，嚴格登記為你借給公司的**「股東貸款（債權）」**。</li>
+                        <li><strong>合法隱形：</strong>當資金流出公司時，會計科目上 100% 寫**「償還股東貸款本金」**。</li>
+                        <li><strong>底層公理：還本金 ≠ 利潤分配。</strong> 在全球稅法中，還債是 100% 免稅的，但賬戶本身的餘額及年度收入總額仍會被金融機構依法申報。還本安排僅優化稅務成本，不改變 CRS 申報義務。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+            <div class="action-guide-box">
+                <span class="action-tag">合夥人算賬法</span>
+                <p class="action-text">告訴客戶，普通的秘書公司只收幾千塊幫你註冊公司，本質就是留個容易暴露的殼。而我們設計這條股東貸款還本的合規會計安排，幫助客戶優化稅務成本，就是我們諮詢費的數十倍。</p>
+            </div>
+        </div>
+
+        <div class="slide" id="slide-7">
+            <div class="slide-num">Slide 07 / Strategy Implementation III</div>
+            <h2 class="slide-title">戰術落地三：資產合法改名（讓國稅局查到頂層直接撞牆）</h2>
+            <p class="slide-subtitle">在數據追蹤鏈條的最頂端設置法定防火牆，徹底阻斷 UBO 的身份關聯</p>
+            
+            <div class="trust-box-container">
+                <div class="trust-layer">
+                    <div class="layer-title">🛡️ 01. 通過法律架構進行所有權安排</div>
+                    <div class="layer-desc">大數據不管怎麼查，核心目的都是找「這筆錢真正的個人主人（最終受益人UBO）是誰」。我們透過設立海外不可撤銷信託，把資產法律所有權直接過戶給信託公司，資產法律所有權轉移至信託名下。</div>
+                </div>
+        <div class="trust-layer">
+                    <div class="layer-title">🧱 02. 設置酌情防火牆</div>
+                    <div class="layer-desc">架構設計為全權酌情信託。在信托資產實際向受益人分配現金之前，任何受益人在法律上都沒有固定的財產請求權。名義上、法律上，受益權的行使需依信託契約及法規進行。</div>
+                </div>
+                <div class="trust-layer">
+                    <div class="layer-title">🛑 03. 追查鏈條需依法進行穿透申報</div>
+                    <div class="layer-desc">當兩地國稅局的大數據順著股權結構一路往上追查「誰是主人」時，不可撤銷信託契約將依法進行相關信息申報。因為資產已經換名字了，與個人名義持有存在法律區別，但仍需依法履行申報義務。</div>
+                </div>
+            </div>
+
+            <div class="action-guide-box">
+                <span class="action-tag">架構大師思維</span>
+                <p class="action-text">信託是整個防禦地圖的「重要合規工具」。它把資產從個人名下徹底剝離，即使金稅四期大數據再厲害，也信託架構下的資產處置仍需遵守相關稅法規定。</p>
+            </div>
+        </div>
+
+        <div class="slide" id="slide-8">
+            <div class="slide-num">Slide 08 / Ultimate Structural Integration</div>
+            <h2 class="slide-title">頂層架構合體：信託 ➔ OFC / LPF ➔ SPV 完美閉環圖</h2>
+            <p class="slide-subtitle">這就是我們服務的核心方法論：三位一體，多維度確保資產「長治久安」</p>
+            
+            <div class="concept-flow" style="margin-bottom: 30px; max-width: 900px;">
+                <div class="flow-block" style="border-color: var(--matte-gold);">
+                    <span style="font-size: 0.7rem; color: var(--matte-gold); display: block; margin-bottom: 3px;">頂層：資產合法改名</span>
+                    <h4>海外不可撤銷信託</h4>
+                    <p>負責產權與身份徹底解耦，鎖定實質財富，杜絕大數據直接穿透主人身分。</p>
+                </div>
+                <div class="flow-arrow" style="color: var(--matte-gold);">➔</div>
+                <div class="flow-block" style="border-color: var(--matte-gold);">
+                    <span style="font-size: 0.7rem; color: var(--matte-gold); display: block; margin-bottom: 3px;">中層：身分主客對調</span>
+                    <h4>香港 OFC / LPF 基金</h4>
+                    <p>升級為金融機構（FI），依法將內部客戶數據鎖定在香港稅務體系內。</p>
+                </div>
+                <div class="flow-arrow" style="color: var(--matte-gold);">➔</div>
+                <div class="flow-block" style="border-color: var(--matte-gold);">
+                    <span style="font-size: 0.7rem; color: var(--matte-gold); display: block; margin-bottom: 3px;">底層：經營與會計管道</span>
+                    <h4>香港 SPV 公司</h4>
+                    <p>對外直接持有房產或投資賬戶；對上母公司嚴格登記「股東貸款」債權。</p>
+                </div>
+                <div class="flow-arrow" style="color: var(--hermes-orange);">➔</div>
+                <div class="flow-block" style="border-color: var(--hermes-orange); background-color: #FAF6F0;">
+                    <span style="font-size: 0.7rem; color: var(--hermes-orange); display: block; margin-bottom: 3px;">成果：換個名目拿錢</span>
+                    <h4>100% 免稅還本</h4>
+                    <p>現金流通過「償還貸款本金」名目回流，不產生納稅義務，但賬戶餘額及收入總額仍依法納入 CRS 申報。</p>
+                </div>
+            </div>
+        </div>
+
+            <div class="action-guide-box">
+                <span class="action-tag">合夥人導航心法</span>
+                <p class="action-text"><strong>這就是終極的技術方法論：</strong>底層 SPV 負責幹活拿資產，中層基金負責把數據依法在香港本地管理，頂層信託負責把身份擦除。這三個維度疊加在一起，就是高淨值家族夢寐以求的財富防彈衣。</p>
+            </div>
+        </div>
+
+        <div class="slide" id="slide-9">
+            <div class="slide-num">Slide 09 / Client Profiling</div>
+            <h2 class="slide-title">精準畫像識別：如何一眼看穿客戶的「合規重症」？</h2>
+            <p class="slide-subtitle">合夥人前線雷達：在飯局、商務茶敘中，精準篩查出具備以下特徵的三類典型高客</p>
+            
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">客戶類型</th>
+                        <th style="width: 30%;">典型特徵（表面症狀）</th>
+                        <th style="width: 30%;">潛在系統風險（核心風險點）</th>
+                        <th style="width: 20%;">推薦一性原理藥方</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-weight: 500;">A類：盲目離岸客</td>
+                        <td>持有老舊 BVI 或開曼殼公司，常年僅用於境外股票投資、或收取海外貿易外匯。</td>
+                        <td>100% 觸發 <strong>Passive NFE（消極實體）</strong> 判定，每年 9 月底層資產淨值被自動推送回內地。</td>
+                        <td style="color: var(--hermes-orange); font-weight: 500;">改組實體：<br>升維至香港 OFC/LPF 架構。</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 500;">B類：跨境大業主</td>
+                        <td>手頭持有香港數套大額豪宅，常年收取高昂租金，或正準備將物業變現。</td>
+                        <td>租金或物業變現款直接刷向個人賬戶，或走公司利潤分紅，<strong>依法觸發巨額跨境個稅追繳</strong>。</td>
+                        <td style="color: var(--hermes-orange); font-weight: 500;">科目分流：<br>構建股東貸款還本管道。</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 500;">C類：新香港居民</td>
+                        <td>剛辦理香港身份（如高才/優才），但核心企業、大部分家人和常住地依然在內地。</td>
+                        <td>誤以為拿了身份就免稅。其<strong>實際稅務居民身份仍被內地國稅局鎖定</strong>，依然面臨全球徵稅風險。</td>
+                        <td style="color: var(--hermes-orange); font-weight: 500;">所有權解耦：<br>海外全權不可撤銷信託。</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="action-guide-box">
+                <span class="action-tag">前線展業指引</span>
+                <p class="action-text">合夥人不需要主動推銷架構。聊天時只要拋出問題：「張總，你那幾套香港物業收租，現在還是直接打進個人戶口嗎？銀行的最新 KYC 表格填了沒有？」只要對方語塞，立刻切入體檢服務。</p>
+            </div>
+        </div>
+        </div>
+
+        <div class="slide" id="slide-10">
+            <div class="slide-num">Slide 10 / Illusion Smasher</div>
+            <h2 class="slide-title">降維破局：前線必備的 3 大客戶認知澄清話術</h2>
+            <p class="slide-subtitle">用底層邏輯擊碎客戶的僥倖心理，將諮詢費轉化為高維度的「安全買單」</p>
+            
+            <div class="three-column-grid">
+                <div class="premium-card" style="border-top: 2px solid var(--charcoal-black);">
+                    <h4>🤔 幻覺一</h4>
+                    <p style="color: var(--muted-gray); margin-bottom: 8px;">「我的境外賬戶好好的，從來沒被凍結過，說明我很安全。」</p>
+                    <p><strong>🔥 專業澄清話術：</strong><br>“張總，CRS 不是‘凍結工具’，它是‘靜默雷達’。銀行在後台默默把你的餘額打包傳給國稅局，系統在悄悄做大數據比對。發現合規漏洞後及早諮詢專業顧問，是保障資產安全的最佳方式。”</p>
+                </div>
+                <div class="premium-card" style="border-top: 2px solid var(--hermes-orange);">
+                    <h4>🤔 幻覺二</h4>
+                    <p style="color: var(--muted-gray); margin-bottom: 8px;">「我已經拿到香港身份證了，內地國稅局肯定管不到我的海外資產了。」</p>
+                    <p><strong>🔥 專業澄清話術：</strong><br>“張總，稅法看的是‘核心利益中心地’而非‘單純的身份證’。實質重於形式，只要您的主要事業、家人還在內地，在法律上您依然是內地的全球徵稅對象。只有用合規的基金架構依法管理數據，才是法律層面的安全。”</p>
+                </div>
+                <div class="premium-card" style="border-top: 2px solid var(--matte-gold);">
+                    <h4>🤔 幻覺三</h4>
+                    <p style="color: var(--muted-gray); margin-bottom: 8px;">「設立信託和基金太貴了，普通秘書公司幾千塊就能搞定。」</p>
+                    <p><strong>🔥 專業澄清話術：</strong><br>“廉價中介只管註冊，根本不具備金融機構合規與科目設計的能力。他們留下的 Passive NFE 漏洞，未來可能讓您面臨數百萬的境外個稅補繳。多花一點顧問費在底層會計科目設計上，省下的稅金是這筆諮詢費的幾十倍。”</p>
+                </div>
+            </div>
+        </div>
+
+            <div class="action-guide-box">
+                <span class="action-tag">談判心理學</span>
+                <p class="action-text">富人不怕花錢，富人只怕「不安全」。當合夥人能用國稅局大數據的客觀事實澄清認知誤區時，幾十萬的諮詢費在他們眼裡就變成了極其廉價的資產保險費。</p>
+            </div>
+        </div>
+
+        <div class="slide" id="slide-11">
+            <div class="slide-num">Slide 11 / Conflict Resolution</div>
+            <h2 class="slide-title">阻力排除：合規改造中的「三大核心顧慮」深度解答</h2>
+            <p class="slide-subtitle">提前解答合夥人與客戶關心的核心問題，確保方案推動毫無技術卡點</p>
+            
+            <div class="trust-box-container">
+                <div class="trust-layer">
+                    <div class="layer-title">❓ Q1. 股東貸款還本<br><span style="color: var(--hermes-orange);">銀行開戶會不會查？</span></div>
+                    <div class="layer-desc"><strong>💡 後台專業人士解答：</strong> 完全不會。股東貸款（Shareholder Loan）是跨國集團及常規地產開發中極其普遍、合法的融資常態。在開戶及年度審查中，只需在公司章程及最初的董事會決議中做好標準債權登記，銀行合規系統對此完全免疫，視其為正常的關聯方往來款。</div>
+                </div>
+        </div>
+                <div class="trust-layer">
+                    <div class="layer-title">❓ Q2. 設立了信託<br><span style="color: var(--hermes-orange);">我還能控制資產嗎？</span></div>
+                    <div class="layer-desc"><strong>💡 後台專業人士解答：</strong> 當然可以。我們設計的全權不可撤銷信託，會為委託人配置「保護人（Protector）」角色。保護人依法擁有一票否決權，可以隨時更換信託公司。資產在法律產權上與你無關（對抗大數據），但實質經營控制權依然穩穩在家族內部。</div>
+                </div>
+                <div class="trust-layer">
+                    <div class="layer-title">❓ Q3. 香港 OFC 基金<br><span style="color: var(--hermes-orange);">年度維護會很麻煩嗎？</span></div>
+                    <div class="layer-desc"><strong>💡 後台專業人士解答：</strong> 完全不需要客戶操心。OFC 作為法定的「金融機構」，其年度審計、報稅、以及常態化的金融機構合規維護工作，全部由總部的後台專業人士與持牌團隊進行常態化託管。客戶收到的只有年度安全看板，體驗極其輕量。</div>
+                </div>
+            </div>
+
+            <div class="action-guide-box">
+                <span class="action-tag">前線展業底氣</span>
+                <p class="action-text">有了這三個標準答案，合夥人可以大膽、放心地去和任何懂行的客戶或會計師深入溝通，因為每一個技術細節，我們都在規則體系內做好了完美的閉環準備。</p>
+            </div>
+        </div>
+
+        <div class="slide" id="slide-12">
+            <div class="slide-num">Slide 12 / Delivery SOP</div>
+            <h2 class="slide-title">標準交付：後台專業人士的 10 天標準化「手術」SOP</h2>
+            <p class="slide-subtitle">合夥人無後顧之憂：你負責前端建立信任，重型交付與專業責任全由後台閉環</p>
+            
+            <div class="three-column-grid">
+                <div class="premium-card" style="border-top: 2px solid var(--charcoal-black);">
+                    <div style="font-size: 0.75rem; color: var(--muted-gray); margin-bottom: 5px;">PHASE 01 / Day 1 - 2</div>
+                    <h4 style="font-weight: 500;">🔍 脫敏初篩與大盤診斷</h4>
+                    <p>合夥人引導客戶填寫不記錄敏感身份、僅勾選資產席位的《20項全球資產粗篩表》，交由總部。後台系統進行數字模擬，抓出高危風險漏洞，出具初步體檢報告。</p>
+                </div>
+                <div class="premium-card" style="border-top: 2px solid var(--hermes-orange);">
+                    <div style="font-size: 0.75rem; color: var(--muted-gray); margin-bottom: 5px;">PHASE 02 / Day 3 - 5</div>
+                    <h4 style="font-weight: 500; color: var(--hermes-orange);">📝 專家會診與意見書背書</h4>
+                    <p><strong>後台專業人士</strong>針對客戶資產現狀開展跨司法管轄區論證，正式出具簽字背書的《資產架構合規意見書》。<strong>所有專業法律責任與合規風險由後台持牌專業機構承擔，合夥人需確保引薦行為符合持牌要求。</strong></p>
+                </div>
+                <div class="premium-card" style="border-top: 2px solid var(--matte-gold);">
+                    <div style="font-size: 0.75rem; color: var(--muted-gray); margin-bottom: 5px;">PHASE 03 / Day 60 - 180</div>
+                    <h4 style="font-weight: 500; color: var(--matte-gold);">🏗️ 精密合規與架構落地</h4>
+                    <p>總部後台對接香港持牌信託機構、本地券商及秘書團隊。3-6個月內完成 OFC 基金籌建（視SFC審批進度）、海外全權信託契約簽署、以及底層 SPV 公司股東貸款科目變更登記，架構完美平穩落地。</p>
+                </div>
+            </div>
+        </div>
+
+                        <div style="margin-top: 20px; padding: 15px 20px; background: #F0F8FF; border: 1px solid rgba(0,0,0,0.08); border-radius: 4px;">
+                <div style="font-size: 0.8rem; font-weight: 500; color: #1A1A1A; margin-bottom: 6px;">🛡️ 反洗錢（AML）與客戶盡職調查（KYC）要求</div>
+                <p style="font-size: 0.75rem; color: #555; line-height: 1.6;">所有跨境架構調整必須符合各司法管轄區的 AML/KYC 法規要求。客戶需提供資金來源證明（Source of Funds）及財富來源證明（Source of Wealth）。未經盡職調查的架構設立可能面臨法律風險及監管處罰。</p>
+            </div>
+<div class="action-guide-box">
+                <span class="action-tag">合夥人安全隔離</span>
+                <p class="action-text">這套 SOP 確保了合夥人的時間ROI最大化。合夥人不需要去學怎麼做賬、怎麼寫法律文書，你只需要做前期的優雅引導，重型的手術和法律鍋全部由後台專業人士來背。</p>
+            </div>
+        </div>
+
+        <div class="slide" id="slide-13">
+            <div class="slide-num">Slide 13 / Revenue Model</div>
+            <h2 class="slide-title">利益分配：合夥人合作模式、利潤空間與永續分潤</h2>
+            <p class="slide-subtitle">明明白白談錢：用金字塔式的頂級收益模型，回報合夥人的每一份珍貴信任</p>
+            
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th style="color: var(--charcoal-black); border-bottom-color: var(--matte-gold);">業務級別</th>
+                        <th style="color: var(--charcoal-black); border-bottom-color: var(--matte-gold);">尊享顧問費客單價</th>
+                        <th style="color: var(--hermes-orange); border-bottom-color: var(--matte-gold); font-weight: bold;">合夥人首期利潤分配 (固定 20%)</th>
+                        <th style="color: var(--charcoal-black); border-bottom-color: var(--matte-gold);">常年永續分潤 (Retainer Fee)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-weight: 500;">Level 01<br>CRS 風險合規體檢</td>
+                        <td>HK$ 38,000 - 68,000</td>
+                        <td style="color: var(--hermes-orange); font-weight: bold;">HK$ 7,600 - 13,600</td>
+                        <td style="color: var(--muted-gray);">一次性交付項目</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 500;">Level 02<br>輕量架構與貸款設計</td>
+                        <td>HK$ 150,000 - 350,000</td>
+                        <td style="color: var(--hermes-orange); font-weight: bold;">HK$ 30,000 - 70,000</td>
+                        <td style="color: var(--muted-gray);">次年續期分潤 10%</td>
+                    </tr>
+                    <tr style="background-color: #FAF6F0;">
+                        <td style="font-weight: 500; color: var(--charcoal-black);">Level 03<br>頂配家辦 (信託+OFC)</td>
+                        <td style="color: var(--charcoal-black);">HK$ 500,000 - 1,000,000+</td>
+                        <td style="color: var(--hermes-orange); font-weight: bold; font-size: 0.9rem;">HK$ 100,000 - 200,000+</td>
+                        <td style="color: var(--hermes-orange); font-weight: bold;">每年固定分潤 HK$ 30k - 60k / 年</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="action-guide-box">
+                <span class="action-tag">永續管道分潤</span>
+                <p class="action-text">最進階的利潤在於 Level 03 的**常年分潤機制**。只要客戶的信託和 OFC 基金架構每年在運行，後台收取年度監測規費，合夥人每年就能雷打不動地獲得穩定利潤分享，實現客戶關係的長期合作。</p>
+            </div>
+        </div>
+        </div>
+
+        <div class="slide" id="slide-14">
+            <div class="slide-num">Slide 14 / Safety Boundary</div>
+            <h2 class="slide-title">合夥人安全邊界：交付防禦系統，而非行政承諾</h2>
+            <p class="slide-subtitle">嚴格遵循「不超前承諾」最高鐵律，用客觀法規制度保護前線自身安全</p>
+            
+            <div class="three-column-grid" style="margin-bottom: 30px;">
+                <div class="premium-card">
+                    <div class="card-icon-accent">❌ 錯誤的承諾（不要做）</div>
+                    <p style="color: #D9534F; font-weight: 500; margin-bottom: 5px;">「我保證100%能在某家銀行開戶成功！」<br>「我保證這個做法永遠不會被查！」</p>
+                    <p style="font-size: 0.75rem; color: #666; margin-top: 10px;"><strong>原因：</strong>銀行的行政風控和開戶政策天天在變，打包票會讓合夥人陷入極大的民事與信譽對賭風險。</p>
+                </div>
+                <div class="premium-card" style="border-color: var(--matte-gold); background-color: #FAF6F0;">
+                    <div class="card-icon-accent" style="color: var(--matte-gold);">💎 正確的交付（大膽說）</div>
+                    <p style="color: var(--charcoal-black); font-weight: 500; margin-bottom: 5px;">「我們向您交付的是一套在法律定義、會計科目上完美閉環的底層物理盾牌。」</p>
+                    <p style="font-size: 0.75rem; color: #666; margin-top: 10px;"><strong>原因：</strong>法規、信託法、會計準則是公認的商業常識。我們交付的是確定的制度外衣，而非賭銀行的行政運氣。</p>
+                </div>
+                <div class="premium-card">
+                    <div class="card-icon-accent">🛡️ 法律鍋移交（後台扛）</div>
+                    <p style="font-weight: 500; margin-bottom: 5px;">所有方案與《合規意見書》均由後台專業人士簽字背書。</p>
+                    <p style="font-size: 0.75rem; color: #666; margin-top: 10px;"><strong>原因：</strong>合夥人定位是前端「導醫」，後台專業人士負責「主刀」。所有專業諮詢責任由後台持牌主體承擔，合夥人需確保引薦行為符合持牌要求。</p>
+                </div>
+            </div>
+        </div>
+
+            <div class="action-guide-box">
+                <span class="action-tag">內部避險心法</span>
+                <p class="action-text">如果遇到客戶追問極端細節，前線標準對話術：「張總，為了確保您的資產安全，這種非標細節需要交由我們的後台專業人士進行閉環論證，這才是對您最負責的做法。」這話一出，專業感與安全邊界同時拉滿。</p>
+            </div>
+        </div>
+
+        <div class="slide" id="slide-15">
+            <div class="slide-num">Slide 15 / Sustainable Growth</div>
+            <h2 class="slide-title">永續經營：政策壓力測試與階層互助式裂變</h2>
+            <p class="slide-subtitle">將單次服務轉化為終身安全防護起點，讓老客戶源源不斷為你帶來新高客</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; width: 100%; max-width: 900px; margin-bottom: 30px;">
+                <div style="border-top: 1px solid var(--border-line); padding-top: 15px;">
+                    <span style="color: var(--hermes-orange); font-size: 1rem; font-weight: 500;">🔄 季度政策壓力測試（鎖定Retainer）</span>
+                    <p style="font-size: 0.75rem; color: #555; line-height: 1.6; margin-top: 8px;">兩地大數據與稅務系統每年都在迭代。我們每季度為老客戶的架構進行常態化政策比對，動態修補新漏洞。明確「動態維護」概念，順理成章在第二年起收取常年合規顧問監測費，拒減免售後。</p>
+                </div>
+                <div style="border-top: 1px solid var(--border-line); padding-top: 15px;">
+                    <span style="color: var(--hermes-orange); font-size: 1rem; font-weight: 500;">🤝 階層互助式裂變（安全引導轉介紹）</span>
+                    <p style="font-size: 0.75rem; color: #555; line-height: 1.6; margin-top: 8px;">當客戶體驗到我們實體升維與貸款還本管道的威力後，引導其轉介紹。將轉介紹的性質從「幫我們拉生意」，高維轉化為<strong>「幫他同階級的朋友搶救海外資產安全線的頂級人情」</strong>。</p>
+                </div>
+            </div>
+        </div>
+
+            <button class="cta-action-btn" onclick="alert('基於第一性原理的《合夥人15張高客談單地圖》已全面授權。請啟動跨境資產合規作業！')">啟動第一性原理作業 / START WORK</button>
+
+            <div class="action-guide-box">
+                <span class="action-tag">最終裂變話術</span>
+                <p class="action-text"><strong>合夥人終極裂變話術：</strong>「張總，您的資產已經通過將實體升維為具有自主申報控制權的金融機構，結合股東貸款還本，在 CRS 框架下實現了合規申報與稅務成本優化。但您身邊那些辦了香港身份的朋友，海外資產可能還在消極殼公司裡存在合規風險，需依法進行CRS申報與合規審查。您可以帶他們來，我們用這套第一性原理幫他們做一次脫敏的合規體檢。」</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="controls-bar">
+        <div class="slide-dots" id="dotsContainer"></div>
+        <div class="btn-group">
+            <button class="nav-btn" id="prevBtn">PREV</button>
+            <button class="nav-btn" id="nextBtn">NEXT</button>
+        </div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dotsContainer = document.getElementById('dotsContainer');
+        let currentSlideIndex = 0;
+
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = `dot ${index === 0 ? 'active' : ''}`;
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        function updateSlideClasses() {
+            slides.forEach((slide, index) => {
+                if (index === currentSlideIndex) {
+                    slide.classList.add('active');
+                    dots[index].classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                    dots[index].classList.remove('active');
+                }
+            });
+        }
+
+        function goToSlide(index) {
+            currentSlideIndex = index;
+            updateSlideClasses();
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlideIndex < slides.length - 1) { currentSlideIndex++; } else { currentSlideIndex = 0; }
+            updateSlideClasses();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlideIndex > 0) { currentSlideIndex--; } else { currentSlideIndex = slides.length - 1; }
+            updateSlideClasses();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { nextBtn.click(); }
+            else if (e.key === 'ArrowLeft') { prevBtn.click(); }
+        });
+    </script>
+</body>
+</html>

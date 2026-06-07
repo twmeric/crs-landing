@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>内地税务居民 · 香港物业 CRS 穿透风险</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/styles.css">
+  <style>
+    /* Page-specific */
+    .hero { text-align: center; padding: 100px 0 60px; }
+    .hero h1 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); letter-spacing: 0.12em; font-weight: 300; }
+    .hero .gold-line { margin: 24px auto; }
+    .hero p { color: var(--muted-gray); font-size: 0.9rem; letter-spacing: 0.05em; max-width: 520px; margin: 0 auto; }
+
+    .matrix-container { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+    .matrix-card { background: #fff; border: 1px solid var(--border-line); border-radius: 18px; padding: 40px; box-shadow: 0 8px 32px rgba(26,26,26,0.04); }
+    .card-holder-type { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 400; letter-spacing: 0.08em; color: var(--hermes-orange); margin-bottom: 32px; }
+    .sub-block { margin-bottom: 28px; }
+    .block-label { font-size: 0.75rem; color: var(--muted-gray); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .block-label::before { content: ""; display: inline-block; width: 4px; height: 4px; background: var(--matte-gold); }
+    .blind-spot { font-size: 1rem; color: var(--warn-red); font-weight: 400; line-height: 1.7; }
+    .logic-text { font-size: 0.92rem; color: var(--charcoal-black); line-height: 1.8; }
+    .logic-text strong { color: var(--charcoal-black); font-weight: 500; }
+    .danger-list { font-size: 0.9rem; color: #333; background: rgba(197,160,89,0.04); padding: 24px; border-left: 1px solid var(--matte-gold); border-radius: 14px; line-height: 1.8; }
+    .danger-list p { margin-bottom: 14px; }
+    .danger-list p:last-child { margin-bottom: 0; }
+    .danger-list strong { color: var(--charcoal-black); font-weight: 500; }
+
+    .pitch-section { background: linear-gradient(180deg, #1A1A1A 0%, #252525 100%); color: var(--ivory-white); margin: 60px -5vw 0; padding: 80px 5vw; }
+    .pitch-section .section-title { color: var(--ivory-white); margin-bottom: 50px; }
+    .quote-box { border-left: 2px solid var(--hermes-orange); padding: 20px 28px; margin-bottom: 40px; border-radius: 14px; overflow: hidden; background: rgba(255,102,0,0.02); }
+    .quote-box:last-child { margin-bottom: 0; }
+    .quote-box h4 { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 400; color: var(--hermes-orange); margin-bottom: 10px; letter-spacing: 0.05em; }
+    .quote-box p { font-size: 0.9rem; color: #CECECE; font-style: italic; line-height: 1.8; }
+
+    .conclusion-box { max-width: 680px; margin: 80px auto 40px; border: 1px solid var(--hermes-orange); padding: 48px; text-align: center; border-radius: 18px; overflow: hidden; background: rgba(255,102,0,0.015); }
+    .conclusion-box h3 { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 300; letter-spacing: 0.1em; margin-bottom: 16px; }
+    .conclusion-box p { font-size: 0.9rem; color: var(--muted-gray); line-height: 1.8; }
+
+    @media (max-width: 900px) {
+      .matrix-container { grid-template-columns: 1fr; gap: 50px; }
+      .pitch-section { margin: 40px -5vw 0; padding: 60px 5vw; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Print Button -->
+  <button class="print-btn" id="printBtn" aria-label="打印页面">
+    <svg viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+    打印 / PDF
+  </button>
+
+  <!-- Sticky Mini Nav -->
+  <nav class="mini-nav">
+    <div class="mini-nav-inner">
+      <div class="mini-nav-logo">CRS · 风险透视</div>
+      <div class="mini-nav-links">
+        <a href="#risk-matrix">风险矩阵</a>
+        <a href="#pitch">对话话术</a>
+        <a href="#conclusion">总结</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- Hero -->
+    <header class="hero reveal">
+      <h1>内地税务居民 · 香港物业<br>CRS 穿透风险</h1>
+      <div class="gold-line"></div>
+      <p>从「信息不对称」到「数据透明化」，跨境资产合规的时代已经到来。</p>
+    </header>
+
+    <!-- Section 1: Risk Matrix -->
+    <section id="risk-matrix">
+      <h2 class="section-title reveal">核心风险矩阵</h2>
+      <div class="gold-line reveal"></div>
+
+      <div class="matrix-container">
+        <!-- Card A: 个人名义 -->
+        <div class="matrix-card reveal lift-hover">
+          <div class="card-holder-type">个人名义持有房产</div>
+
+          <div class="sub-block">
+            <div class="block-label">常见盲区与侥幸心理</div>
+            <p class="blind-spot">"CRS 只查金融账户，又不查房产。我的香港不动产，内地税务局根本看不见。"</p>
+          </div>
+
+          <div class="sub-block">
+            <div class="block-label">CRS 核心穿透逻辑</div>
+            <p class="logic-text">房产本身确实不直接参与交换，但<strong>「资产变现的金融载体」无处可藏</strong>：<br>1. 租金流入业主个人的香港银行账户。<br>2. 物业出售后的房款流入个人账户。<br>根据 OECD《共同申报准则》（CRS）及香港《税务条例》第 8A 部，金融机构申报的是账户持有人的身份信息、截至年底的账户余额，以及该年度内支付或记入账户的利息、股息及出售金融资产所得等收入总额。银行不会发送每一笔流水明细，但账户年底余额及该年度收入总额均可能被纳入 CRS 自动交换范围。</p>
+          </div>
+
+          <div class="sub-block">
+            <div class="block-label">内地税务视角下的风险警示</div>
+            <div class="danger-list">
+              <p><strong>① 全球个人所得税追缴：</strong>内地居民的境外租金收入原则上需在内地申报并缴纳个人所得税，目前大量持有人处于未主动申报状态，存在被追溯风险。</p>
+              <p><strong>② 巨额资产来源审查：</strong>若香港账户存在大额变现资金，而在内地缺乏对应的完税记录，可能触发金税四期系统的风险标记，引发进一步核查。</p>
+              <p><strong>③ 境外资本利得曝光：</strong>未来若出售物业，大额房款进入个人账户后，其账户余额变动在 CRS 框架下会被申报，可能成为税务机关评估个人所得税（财产转让所得）的线索来源。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card B: 离岸/香港公司 -->
+        <div class="matrix-card reveal lift-hover reveal-delay-2">
+          <div class="card-holder-type">离岸公司 / 香港公司持有</div>
+
+          <div class="sub-block">
+            <div class="block-label">常见盲区与侥幸心理</div>
+            <p class="blind-spot">"物业是独立法人公司持有的，公司是天然的隔离墙，税务局怎么可能查到我个人头上？"</p>
+          </div>
+
+          <div class="sub-block">
+            <div class="block-label">CRS 核心穿透逻辑</div>
+            <p class="logic-text">在 CRS 规则下，缺乏实质运营的离岸公司通常被银行归类为<strong>「消极非金融机构（Passive NFE）」</strong>。<br>根据穿透法规，金融机构<strong>必须「穿透（Look-through）」公司外壳</strong>，识别持股 25% 以上或通过其他方式行使控制权的 <strong>UBO（最终受益人）</strong>。只要 UBO 是内地税务居民，该公司的银行账户信息即可能被纳入交换范围。</p>
+          </div>
+
+          <div class="sub-block">
+            <div class="block-label">内地税务视角下的风险警示</div>
+            <div class="danger-list">
+              <p><strong>① 股东贷款重定性风险：</strong>业主常以「公司收租，再以股东贷款形式借给个人」进行资金回流。税务机关有权将长期未偿还的股东贷款重新认定为<strong>「股东分红」</strong>，追缴个人所得税及滞纳金。</p>
+              <p><strong>② 受控外国企业（CFC）审查：</strong>内地居民控制的境外公司，若设立在实际税负明显偏低且无合理经营需要的地区，并将利润长期留存境外不做合理分配，税务机关可能依据个人所得税法一般反避税条款进行纳税调整。个人 CFC 规则尚在完善中，具体适用需结合个案判定。</p>
+              <p><strong>③ 反洗钱与外汇合规并发：</strong>公司账户频繁的大额资金往来，可能触发行政层面的反洗钱或外汇合规审查；仅在情节严重、具备主观故意等条件下，方存在刑事风险。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Pitch -->
+    <section class="pitch-section" id="pitch">
+      <div class="container" style="padding:0;">
+        <h2 class="section-title reveal">「顺势而为、借力打力」</h2>
+        <div class="gold-line reveal"></div>
+
+        <div class="quote-box reveal">
+          <h4>针对个人持有人 —— 打破「房产安全」幻觉</h4>
+          <p>"CRS 虽然不直接交换房产登记信息，但房产产生的租金、售房款一旦进入银行账户，就进入了金融信息交换的视野。内地税务机关通过 CRS 获取账户信息后，可进一步追踪资金来源。如果租金收入或售房利润未在内地申报，不仅面临 20% 个人所得税的追缴，还会产生每日万分之五的滞纳金。主动合规，远比被动应对成本更低。"</p>
+        </div>
+
+        <div class="quote-box reveal reveal-delay-2">
+          <h4>针对公司持有人 —— 正视「离岸公司」的穿透现实</h4>
+          <p>"在 Passive NFE 规则下，不进行实质运营的离岸公司并非真正的隔离墙。金融机构的穿透审查义务意味着，公司的最终受益人信息必须被识别并申报。若将利润长期留存境外、通过股东贷款形式回流个人，恰恰是税务机关重点关注的反避税指标。与其心存侥幸，不如提前进行合规架构评估。"</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Conclusion -->
+    <section id="conclusion">
+      <div class="conclusion-box reveal lift-hover">
+        <h3>「有资产、有账户，应依法申报」<br>的时代已经到来</h3>
+        <p>通过专业的税务居民身份梳理与合规申报方案优化，在真实商业目的的前提下，合法、合规地建立完善的跨境资产合规管理体系。已持有的境外资产应依法如实申报，任何架构调整须以真实商业目的为前提，不得用于规避法定申报义务。</p>
+      </div>
+
+      <div class="disclaimer reveal">
+        <strong>免责声明：</strong>本文件仅供专业研究参考，不构成正式税务、法律或投资意见。CRS 及跨境税务法规具有复杂性与时效性，具体个案应咨询持牌税务师及法律顾问。任何架构调整均需以合法合规为前提，不得用于规避法定申报义务。
+      </div>
+    </section>
+
+  </div>
+
+  <script src="../shared/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRS 跨境資產合規 · 實戰速查指南</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #FF6600;
+      --charcoal: #1A1A1A;
+      --ivory: #F5F0EB;
+      --gold: #C5A059;
+      --gray: #7F7F7F;
+      --border: rgba(26,26,26,0.12);
+      --bg-alt: #FAF8F5;
+      --danger: #B8401E;
+      --safe: #2D6A4F;
+      --warn: #B08D3E;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family: "Noto Sans SC", -apple-system, sans-serif;
+      background: var(--ivory);
+      color: var(--charcoal);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* Fixed sidebar nav */
+    .sidebar {
+      position: fixed;
+      top:0; left:0; bottom:0;
+      width: 260px;
+      background: var(--charcoal);
+      color: var(--ivory);
+      overflow-y: auto;
+      padding: 28px 20px 40px;
+      z-index: 100;
+    }
+    .sidebar-logo {
+      font-family: "Noto Serif SC", serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      color: var(--gold);
+    }
+    .sidebar-sub {
+      font-size: 0.72rem;
+      color: var(--gray);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(245,240,235,0.15);
+    }
+    .nav-section {
+      margin-bottom: 18px;
+    }
+    .nav-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .nav-link {
+      display: block;
+      font-size: 0.82rem;
+      color: rgba(245,240,235,0.7);
+      text-decoration: none;
+      padding: 5px 0 5px 12px;
+      border-left: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--ivory);
+      border-left-color: var(--orange);
+    }
+
+    /* Main content */
+    .main {
+      margin-left: 260px;
+      max-width: 900px;
+      padding: 48px 48px 80px;
+    }
+
+    h1 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 2rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .hero-sub {
+      font-size: 0.85rem;
+      color: var(--gray);
+      letter-spacing: 0.08em;
+      margin-bottom: 32px;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 24px;
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-meta span { display:flex; align-items:center; gap:6px; }
+    .hero-meta .dot {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--safe);
+    }
+
+    h2 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 1.35rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      margin: 48px 0 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--charcoal);
+      scroll-margin-top: 24px;
+    }
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin: 28px 0 12px;
+      color: var(--charcoal);
+    }
+    h4 {
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin: 18px 0 8px;
+      color: var(--orange);
+    }
+
+    p { margin-bottom: 12px; }
+
+    /* Cards */
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-badge {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 4px;
+      background: var(--bg-alt);
+      color: var(--gray);
+    }
+    .card-badge.primary { background: var(--orange); color: #fff; }
+    .card-badge.safe { background: #E8F5E9; color: var(--safe); }
+    .card-badge.warn { background: #FFF8E1; color: var(--warn); }
+    .card-badge.danger { background: #FBE9E7; color: var(--danger); }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin: 14px 0;
+    }
+    th {
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--gray);
+      padding: 10px 12px;
+      border-bottom: 2px solid var(--charcoal);
+      background: transparent;
+    }
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:hover td { background: var(--bg-alt); }
+
+    /* Highlight boxes */
+    .box {
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin: 16px 0;
+      font-size: 0.88rem;
+    }
+    .box-tip { background: #E3F2FD; border-left: 3px solid #1976D2; }
+    .box-warn { background: #FFF3E0; border-left: 3px solid var(--orange); }
+    .box-danger { background: #FBE9E7; border-left: 3px solid var(--danger); }
+    .box-safe { background: #E8F5E9; border-left: 3px solid var(--safe); }
+    .box-neutral { background: var(--bg-alt); border-left: 3px solid var(--gold); }
+    .box-title {
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+    }
+
+    /* Flow diagram */
+    .flow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 14px 0;
+      font-size: 0.82rem;
+    }
+    .flow-step {
+      background: var(--charcoal);
+      color: var(--ivory);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+    .flow-arrow { color: var(--gold); font-size: 1.1rem; }
+    .flow-note { color: var(--gray); font-size: 0.78rem; }
+
+    /* Script boxes */
+    .script {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 14px 0;
+      font-size: 0.88rem;
+    }
+    .script-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .script-body {
+      line-height: 1.8;
+      color: #333;
+    }
+    .script-body strong { color: var(--charcoal); }
+
+    /* List styles */
+    ul, ol { margin: 10px 0 14px 20px; }
+    li { margin-bottom: 6px; }
+
+    /* Grid */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 700px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 24px; }
+    }
+
+    /* Print */
+    @media print {
+      .sidebar { display: none !important; }
+      .main { margin-left: 0 !important; max-width: 100% !important; padding: 0 !important; }
+      h2 { page-break-after: avoid; }
+      .card { break-inside: avoid; page-break-inside: avoid; }
+      body { background: #fff !important; }
+    }
+
+    /* Anchor offset for fixed sidebar */
+    section { scroll-margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<!-- Sidebar Navigation -->
+<nav class="sidebar">
+  <div class="sidebar-logo">CRS 實戰速查指南</div>
+  <div class="sidebar-sub">Quick Reference</div>
+
+  <div class="nav-section">
+    <div class="nav-title">架構總覽</div>
+    <a href="#arch" class="nav-link">三步閉環架構圖</a>
+    <a href="#compare" class="nav-link">舊架構 vs 新架構</a>
+    <a href="#nfe" class="nav-link">NFE → FI 基因逆轉</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-title">產品線</div>
+    <a href="#products" class="nav-link">三級產品對比</a>
+    <a href="#pricing" class="nav-link">收費與分潤</a>
+    <a href="#timeline" class="nav-link">7年動態時間軸</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-title">客戶診斷</div>
+    <a href="#diagnosis" class="nav-link">5題風險自測</a>
+    <a href="#checklist" class="nav-link">20項專業檢查清單</a>
+    <a href="#risk-level" class="nav-link">風險等級判定</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-title">銷售話術</div>
+    <a href="#open" class="nav-link">開場白腳本</a>
+    <a href="#objections" class="nav-link">三類客戶應對</a>
+    <a href="#partner" class="nav-link">合作夥伴5步閉環</a>
+    <a href="#cases" class="nav-link">案例範本</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-title">技術操作</div>
+    <a href="#fihev" class="nav-link">FIHV 四大支柱</a>
+    <a href="#accounting" class="nav-link">會計分錄速查</a>
+    <a href="#qa" class="nav-link">技術Q&A TOP 10</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-title">執行SOP</div>
+    <a href="#sop" class="nav-link">10步流程總覽</a>
+    <a href="#bank" class="nav-link">銀行開戶要點</a>
+    <a href="#maintenance" class="nav-link">年度維護紅線</a>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="main">
+
+  <h1>CRS 跨境資產合規 · 實戰速查指南</h1>
+  <div class="hero-sub">家族辦公室架構 · 客戶診斷 · 銷售話術 · 技術操作 · 執行SOP</div>
+  <div class="hero-meta">
+    <span><span class="dot"></span> 知識庫 v2.0</span>
+    <span>更新於 2026-06-06</span>
+    <span>內部機密 · 僅限授權人員查閱</span>
+  </div>
+
+  <!-- ==================== ARCHITECTURE ==================== -->
+  <section id="arch">
+    <h2>一、三步閉環架構總覽</h2>
+
+    <div class="card">
+      <div class="card-title">
+        核心邏輯
+        <span class="card-badge primary">黃金三角</span>
+      </div>
+      <p style="font-size:0.88rem; color:#555;">
+        將資產從「被穿透的 Passive NFE」升格為「不可穿透的 FI（金融機構）」，
+        配合香港稅務居民身份，實現數據在香港本地截斷，零跨境自動交換。
+      </p>
+    </div>
+
+    <div class="flow">
+      <span class="flow-step">SFO 管家公司<br><small style="opacity:0.7">Active NFE</small></span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">OFC 資產池<br><small style="opacity:0.7">升格為 FI</small></span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">香港稅務居民<br><small style="opacity:0.7">數據鎖港</small></span>
+    </div>
+    <div class="flow-note">銀行視 OFC 為「同行 FI」→ 依法停止穿透 → 零 Exchange</div>
+
+    <h3>三主角詳解</h3>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">
+          <span style="color:var(--orange);">▍</span>主角一：SFO 管家公司
+        </div>
+        <ul style="font-size:0.85rem;">
+          <li>管理家族資產，收取管理服務費</li>
+          <li><strong>100% 主動營收</strong> = Active NFE</li>
+          <li>無 CRS 穿透風險</li>
+          <li>純管理家族內部資產 → <strong>豁免 SFC 9號牌</strong></li>
+          <li>家族持有比例 ≥ 95%</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">
+          <span style="color:var(--gold);">▍</span>主角二：OFC 錢袋子
+        </div>
+        <ul style="font-size:0.85rem;">
+          <li>開放式基金公司（Open-ended Fund）</li>
+          <li>由持牌 EAM（9號牌）全權管理</li>
+          <li>定性為 <strong>Type B Investment Entity = FI</strong></li>
+          <li>銀行視為同行，依法停止穿透</li>
+          <li>SFO 不持牌 → 借 EAM 牌照 → 省千萬成本</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <span style="color:var(--safe);">▍</span>主角三：香港稅務居民身份
+      </div>
+      <p style="font-size:0.85rem;">
+        當 OFC（FI）向香港稅局申報權益持有人時，持有人必須是香港稅務居民。
+        這屬於<strong>香港本地稅務申報</strong>，完全不觸發 CRS 跨國自動交換機制。
+        取得路徑：高才通A類 / CIES（3000萬投資）/ 專才計劃。
+      </p>
+    </div>
+  </section>
+
+  <section id="compare">
+    <h3>舊架構（裸奔）vs 新架構（合規閉環）</h3>
+    <table>
+      <tr>
+        <th style="width:20%;">維度</th>
+        <th style="width:40%; color:var(--danger);">舊架構 · 裸奔狀態</th>
+        <th style="width:40%; color:var(--safe);">新架構 · 合規隱形</th>
+      </tr>
+      <tr>
+        <td>實體身份</td>
+        <td>BVI 空殼公司 = <strong>Passive NFE</strong></td>
+        <td>OFC = <strong>FI（投資實體）</strong></td>
+      </tr>
+      <tr>
+        <td>銀行動作</td>
+        <td>強制穿透，識別實控人</td>
+        <td>依法停止穿透，視為同行</td>
+      </tr>
+      <tr>
+        <td>數據申報</td>
+        <td>銀行 → 香港IRD → <strong>自動交換回內地</strong></td>
+        <td>OFC → 香港IRD → <strong>本地事務，不對外交換</strong></td>
+      </tr>
+      <tr>
+        <td>最終結果</td>
+        <td>資產明細+賬戶餘額+受益人信息全部暴露</td>
+        <td>節稅豁免 + 債務隔離 + 全家港籍</td>
+      </tr>
+    </table>
+  </section>
+
+  <section id="nfe">
+    <h3>NFE → FI 基因逆轉：五步閉環</h3>
+    <table>
+      <tr>
+        <th style="width:8%;">步驟</th>
+        <th style="width:25%;">動作</th>
+        <th>結果</th>
+      </tr>
+      <tr>
+        <td><strong>1</strong></td>
+        <td>SFO = Active NFE</td>
+        <td>管家公司收取管理服務費，100%主動營收，歸類為 Active NFE，自身無穿透風險</td>
+      </tr>
+      <tr>
+        <td><strong>2</strong></td>
+        <td>SFO + EAM 合作管理</td>
+        <td>SFO 作為投資顧問，與持牌9號牌 EAM 機構合作，共同管理 OFC 資產池</td>
+      </tr>
+      <tr>
+        <td><strong>3</strong></td>
+        <td>OFC 升格為 FI</td>
+        <td>OFC 因「由 FI 全權管理」且「收入主要來自金融資產投資」，定性升格為 Investment Entity</td>
+      </tr>
+      <tr>
+        <td><strong>4</strong></td>
+        <td>銀行停止穿透</td>
+        <td>銀行視 OFC 為「同行」FI，依法停止穿透審查，不識別背後控制人</td>
+      </tr>
+      <tr>
+        <td><strong>5</strong></td>
+        <td>香港稅籍閉環</td>
+        <td>大老闆成為香港稅務居民，FI 申報信息在港本地截斷，零跨境交換</td>
+      </tr>
+    </table>
+
+    <div class="box box-tip">
+      <div class="box-title">💡 核心洞察</div>
+      CRS 只穿透 NFE，不穿透 FI。如果我們能把「錢袋子」從 NFE 變成 FI，就能讓銀行停止穿透，從而保護背後控制人的信息不被交換。<br><br>
+      關鍵催化劑：不持牌的 SFO（Active NFE）本身不能管理 OFC，但通過與持牌9號牌 EAM 機構合作，借用其「FI 身份」來管理 OFC，從而讓 OFC 也獲得 FI 的「基因」。
+    </div>
+  </section>
+
+  <!-- ==================== PRODUCTS ==================== -->
+  <section id="products">
+    <h2>二、三級產品線對比</h2>
+
+    <table>
+      <tr>
+        <th style="width:18%;">維度</th>
+        <th style="width:27%;">輕量級「CRS安全盾牌」</th>
+        <th style="width:27%;">標準級「三層防禦架構」</th>
+        <th style="width:28%;">高端級「家族財富堡壘」</th>
+      </tr>
+      <tr>
+        <td><strong>物業市值</strong></td>
+        <td>500萬 – 1,500萬 HKD</td>
+        <td>1,500萬 – 3,000萬 HKD</td>
+        <td>3,000萬+ HKD</td>
+      </tr>
+      <tr>
+        <td><strong>持有方式</strong></td>
+        <td>個人名下（單一物業）</td>
+        <td>個人或公司（1-3套）</td>
+        <td>多層次持有，架構混亂</td>
+      </tr>
+      <tr>
+        <td><strong>月租收入</strong></td>
+        <td>約 1.5萬 – 5萬 HKD</td>
+        <td>約 5萬 – 15萬 HKD</td>
+        <td>15萬+ HKD（多源收入）</td>
+      </tr>
+      <tr>
+        <td><strong>身份狀態</strong></td>
+        <td>高才通/專才通，累積7年永居</td>
+        <td>高才通/專才通 第2-4年</td>
+        <td>多身份持有，或即將申永居</td>
+      </tr>
+      <tr>
+        <td><strong>核心架構</strong></td>
+        <td>CoR + 賬戶隔離</td>
+        <td>信託 → BVI → SPV + 股東貸款</td>
+        <td>LPF 基金化 + 多 BVI 集群</td>
+      </tr>
+      <tr>
+        <td><strong>設立費</strong></td>
+        <td>HK$45,000 – 60,500</td>
+        <td>HK$180,000 – 220,000</td>
+        <td>HK$550,000 – 750,000</td>
+      </tr>
+      <tr>
+        <td><strong>年維護費</strong></td>
+        <td>HK$18,000/年</td>
+        <td>HK$48,000/年</td>
+        <td>HK$120,000 – 200,000/年</td>
+      </tr>
+      <tr>
+        <td><strong>預期節稅</strong></td>
+        <td>風險降級，流水不再直送內地</td>
+        <td>稅務成本降低 40-60%</td>
+        <td>稅務成本降低 50%+，多代傳承</td>
+      </tr>
+    </table>
+
+    <div class="box box-warn">
+      <div class="box-title">⚠️ 級別判定原則：寧高勿低</div>
+      如客戶處於兩個級別交界（如物業估值 2,800萬），建議按較高級別設計方案。客戶可選擇降級，但不能升級後發現能力不足。
+    </div>
+  </section>
+
+  <section id="pricing">
+    <h3>收費結構與分潤機制</h3>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">收費構成</div>
+        <p style="font-size:0.85rem;">
+          <strong>總收費 = 顧問費（我方）+ 第三方規費（代收代付）</strong><br><br>
+          顧問費：方案設計、架構搭建、合規咨詢、培訓<br>
+          第三方規費：政府規費、註冊費、律師費、信託設立費等
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">分潤機制</div>
+        <p style="font-size:0.85rem;">
+          <strong>前端引薦費</strong>：合作夥伴獲得設立費的 15-30%<br>
+          <strong>年度維護分潤</strong>：合作夥伴每年自動獲維護費的 30%<br>
+          <strong>批發折扣</strong>：3戶 95折 / 5戶 9折 / 10戶 85折
+        </p>
+      </div>
+    </div>
+
+    <h4>付款時間節點（標準級為例）</h4>
+    <table>
+      <tr>
+        <th>節點</th>
+        <th>客戶付款</th>
+        <th>合作夥伴引薦費</th>
+      </tr>
+      <tr>
+        <td>簽約時</td>
+        <td>總額 30%</td>
+        <td>引薦費的 50%</td>
+      </tr>
+      <tr>
+        <td>方案確認時（2-3週後）</td>
+        <td>總額 40%</td>
+        <td>引薦費的 30%</td>
+      </tr>
+      <tr>
+        <td>交付完成時</td>
+        <td>總額 30%</td>
+        <td>引薦費的 20%</td>
+      </tr>
+    </table>
+  </section>
+
+  <section id="timeline">
+    <h3>7年動態合規時間軸</h3>
+    <table>
+      <tr>
+        <th style="width:18%;">階段</th>
+        <th style="width:15%;">年份</th>
+        <th style="width:35%;">核心動作</th>
+        <th>收費節點</th>
+      </tr>
+      <tr>
+        <td><strong>第一階段</strong><br><small style="color:var(--gray);">稅務身份重塑</small></td>
+        <td>第 1-2 年</td>
+        <td>申請 CoR、建立香港經濟關聯、賬戶隔離</td>
+        <td>輕量級設立費<br>年維護 HK$18,000</td>
+      </tr>
+      <tr>
+        <td><strong>第二階段</strong><br><small style="color:var(--gray);">公司防禦</small></td>
+        <td>第 2-4 年</td>
+        <td>設立 SPV、物業轉入、股東貸款機制啟動</td>
+        <td>補差價至標準級<br>年維護調至 HK$48,000</td>
+      </tr>
+      <tr>
+        <td><strong>第三階段</strong><br><small style="color:var(--gray);">頂層信託歸巢</small></td>
+        <td>第 5 年</td>
+        <td>設立離岸信託及 BVI、SPV 股權注入信託</td>
+        <td>信託設立含在套餐內<br>（標準級客戶）</td>
+      </tr>
+      <tr>
+        <td><strong>第四階段</strong><br><small style="color:var(--gray);">永居後優化</small></td>
+        <td>第 7 年+</td>
+        <td>永居到手、全面優化、傳承規劃</td>
+        <td>年度維護 + 優化費用</td>
+      </tr>
+    </table>
+
+    <div class="box box-warn">
+      <div class="box-title">⏰ 關鍵轉化窗口</div>
+      <strong>第2年Q4</strong>：從第一階段升級到第二階段的關鍵轉化窗口。合作夥伴需在評估會議上強調：「現在不升級，等到第5年就來不及了」。<br><br>
+      <strong>第5年</strong>：設立信託的最後黃金期（永居前完成，避免引起關注）。
+    </div>
+  </section>
+
+  <!-- ==================== DIAGNOSIS ==================== -->
+  <section id="diagnosis">
+    <h2>三、客戶風險診斷</h2>
+
+    <h3>5題快速自測（客戶版）</h3>
+    <div class="card">
+      <p style="font-size:0.85rem; color:#555; margin-bottom:16px;">每題選最符合的一項，將分值相加對照風險等級。</p>
+      <table>
+        <tr>
+          <th style="width:5%;">#</th>
+          <th style="width:55%;">問題</th>
+          <th style="width:40%;">選項（分值）</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>你的境外公司主要業務是什麼？</td>
+          <td>
+            實體貿易/生產（0分）<br>
+            控股公司（1分）<br>
+            被動收入為主（3分）<br>
+            不清楚/未滿24月（2分）
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>過去一年收到銀行 CRS 通知？</td>
+          <td>
+            從未收到（0分）<br>
+            自我聲明表一次（1分）<br>
+            多次催填稅籍聲明（3分）<br>
+            凍結/限制交易警告（3分）
+          </td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>境外資產分散在多少司法管轄區？</td>
+          <td>
+            全在香港且合規（0分）<br>
+            1-2個地區（1分）<br>
+            3-5個地區（2分）<br>
+            5個以上且混亂（3分）
+          </td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>境外公司有實質辦公和員工？</td>
+          <td>
+            實體辦公+全職員工（0分）<br>
+            共享/虛擬+兼職（1分）<br>
+            只有註冊地址（2分）<br>
+            代理人代管（3分）
+          </td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>你的稅務居民身份現狀？</td>
+          <td>
+            已持 CoR（0分）<br>
+            申請中（1分）<br>
+            僅內地稅務居民（3分）<br>
+            不確定（2分）
+          </td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="risk-level">
+    <h3>風險等級判定</h3>
+    <div class="grid-2">
+      <div class="box box-safe">
+        <div class="box-title">🟢 低風險（0-3分）</div>
+        繼續保持現狀，建議每年定期復檢。可考慮輕量級套餐進行合規升級。
+      </div>
+      <div class="box box-tip">
+        <div class="box-title">🔵 中風險（4-7分）</div>
+        建議咨詢專業顧問，評估是否需要啟動架構調整。標準級套餐適用。
+      </div>
+      <div class="box box-warn">
+        <div class="box-title">🟠 高風險（8-12分）</div>
+        需立即採取合規措施。CRS 穿透風險顯著，建議盡快啟動三層防禦架構。
+      </div>
+      <div class="box box-danger">
+        <div class="box-title">🔴 極高風險（13-15分）</div>
+        緊急！建議立即啟動架構重組。銀行可能已觸發穿透申報，時間窗口有限。
+      </div>
+    </div>
+  </section>
+
+  <section id="checklist">
+    <h3>20項專業 CRS 風險檢查清單（顧問版）</h3>
+    <table>
+      <tr>
+        <th style="width:30%;">類別</th>
+        <th style="width:50%;">檢查項</th>
+        <th style="width:20%;">評分</th>
+      </tr>
+      <tr><td rowspan="5"><strong>個人稅務身份</strong></td><td>C1 稅務居民身份</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C2 在港居住天數</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C3 香港經濟關聯</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C4 CoR 持有狀態</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C5 其他國家稅務義務</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td rowspan="5"><strong>資產持有結構</strong></td><td>C6 物業持有方式</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C7 公司架構層數</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C8 最上層控股地</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C9 信託設置</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C10 資產分散度</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td rowspan="5"><strong>銀行與 CRS 申報</strong></td><td>C11 銀行賬戶稅務標籤</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C12 銀行查詢經歷</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C13 賬戶信息交換</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C14 多幣種賬戶</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C15 數字資產賬戶</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td rowspan="5"><strong>收入來源與資金流</strong></td><td>C16 租金收入申報</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C17 資金回流路徑</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C18 資金來源證明</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C19 關聯方交易</td><td>無風險 / 低風險 / 高風險</td></tr>
+      <tr><td>C20 未來處置計劃</td><td>無風險 / 低風險 / 高風險</td></tr>
+    </table>
+
+    <div class="box box-neutral">
+      <div class="box-title">📊 評分公式</div>
+      <strong>總分</strong> = (無風險數量 × 0分) + (低風險數量 × 1分) + (高風險數量 × 3分)<br>
+      0-5分 = 低風險｜6-15分 = 中風險｜16-30分 = 高風險｜31+分 = 極高風險（需特別審批）
+    </div>
+  </section>
+
+  <!-- ==================== SALES ==================== -->
+  <section id="open">
+    <h2>四、銷售話術速查</h2>
+
+    <h3>開場白腳本「CRS衝擊波」</h3>
+    <div class="script">
+      <div class="script-label">首次接觸 · 建立危機意識</div>
+      <div class="script-body">
+        「王先生/李女士，您好。今天想跟您聊一個可能您還沒太留意，但實際上已經在影響您的事情——CRS，也就是共同申報準則。<br><br>
+        簡單說，從2018年開始，中國和香港之間已經實現了金融賬戶信息的自動交換。您在香港的銀行賬戶、保單、信託——只要是以您個人名義持有的，相關信息每年都會被自動發送給中國內地稅務局。<br><br>
+        我知道您可能會想：『我還沒回內地報稅，應該沒事吧？』<br><br>
+        但實際情況是：<strong>不是『有沒有事』的問題，而是『什麼時候有事』的問題。</strong>CRS 是一個自動化的信息交換系統，它不會因為您沒報稅就停止交換。當內地稅務局收到您在香港的資產信息後，他們有<strong>7年的追徵期</strong>。<br><br>
+        特別是如果您在香港有物業在收租——租金直接進個人賬戶——這在 CRS 系統裡屬於『高亮標記』，是最容易被關注的對象。<br><br>
+        我們今天不是來嚇唬您，而是想幫您做一個<strong>免費的 CRS 風險體檢</strong>，看看您目前的持有方式是否存在風險，以及如何在不影响您正常生活的前提下，提前做好合規安排。<br><br>
+        這個體檢只需要5分鐘填寫一份問卷，我們會免費出具一份風險初評報告。您看現在方便了解一下嗎？」
+      </div>
+    </div>
+  </section>
+
+  <section id="objections">
+    <h3>三類客戶精準應對</h3>
+
+    <div class="card">
+      <div class="card-title">
+        <span class="card-badge warn">類型一</span>
+        價格敏感型 — 「這個貴不貴？」
+      </div>
+      <div class="script-body" style="font-size:0.87rem;">
+        核心策略：<strong>用風險量化對比替代價格討論</strong>，強調「不做的成本遠大於做的成本」。<br><br>
+        「我完全理解您關心費用。讓我們算一筆賬：<br>
+        您這套物業價值1,200萬，月租3.5萬。如果現在不做好合規，一旦內地稅務局追徵過去5年的租金收入：<br><br>
+        • 應補繳稅款：約 3.5萬 × 12個月 × 5年 × 15% ≈ <strong>31.5萬</strong><br>
+        • 滯納金：每日萬分之五，5年累計約 <strong>28.7萬</strong><br>
+        • 罰款：最高可達應繳稅款的300%，即 <strong>94.5萬</strong><br>
+        <strong>合計可能超過：150萬</strong><br><br>
+        而我們的輕量級套餐一次性費用是7.55萬，年度維護1.8萬/年。<br><br>
+        <strong>7.55萬 vs 潛在的150萬風險——這不是費用，這是投資。</strong>而且我們提供的是7年動態跟進，不是一次性服務。」
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span class="card-badge danger">類型二</span>
+        猶豫不決型 — 「我再想想」
+      </div>
+      <div class="script-body" style="font-size:0.87rem;">
+        核心策略：<strong>製造緊迫感</strong>，強調時間窗口有限。<br><br>
+        「我理解您需要時間考慮。但有三個時間點我想提醒您：<br><br>
+        <strong>第一，CRS申報每年5月截止。</strong>現在是[當前月份]，如果等到明年報稅季再行動，今年的信息已經交換出去了。<br><br>
+        <strong>第二，CoR申請需要4-8週。</strong>越早申請，越早建立香港稅務居民檔案。<br><br>
+        <strong>第三，7年永居時間軸。</strong>您現在處於第X年，如果現在啟動輕量級方案，到申請永居時，您的合規架構已經運行了X年，這是最理想的節奏。<br><br>
+        坦白說，我們見過太多客戶說『再想想』，結果半年後收到銀行查詢通知才著急找我們——那時候費用更高、時間更緊、選擇更少。<br><br>
+        不如這樣：我們先做一個<strong>免費的CRS體檢</strong>，5分鐘填表，24小時出報告。您拿到報告再做決定，沒有任何壓力。」
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span class="card-badge safe">類型三</span>
+        已有架構但混亂型 — 「我已經有公司了」
+      </div>
+      <div class="script-body" style="font-size:0.87rem;">
+        核心策略：<strong>先肯定其意識，再指出問題</strong>，提供優化方案。<br><br>
+        「您已經設立了公司來持有物業，這個意識非常好，比很多客戶都超前。<br><br>
+        但我想請您注意一個關鍵問題：<strong>您的公司被銀行歸類為什麼類型的實體？</strong><br><br>
+        如果被歸類為 <strong>Passive NFE（被動非金融實體）</strong>，那麼 CRS 會穿透公司，直接披露您作為實際控制人的信息。這種情況下，公司持有並沒有解決 CRS 問題，反而讓內地稅務局更清楚地看到了『誰擁有什麼』。<br><br>
+        我們的標準級套餐包含一個全面 CRS 穿透診斷，可以幫您分析現有架構的 CRS 分類，評估穿透風險，然後設計一個真正有效的三層防禦架構。<br><br>
+        <strong>您已經走了90%的路，不要因為最後10%的細節讓整個架構失效。</strong>我們的診斷服務是免費的，您看什麼時候方便？」
+      </div>
+    </div>
+  </section>
+
+  <section id="partner">
+    <h3>合作夥伴對接：5步閉環（4分鐘）</h3>
+
+    <div class="box box-neutral">
+      <div class="box-title">🎯 核心定位</div>
+      你不是來搶生意的，你是來幫他們的方案<strong>打補丁</strong>的。<br>
+      你的定位：<strong>境外特種兵</strong>——國內稅務籌劃止於深圳河，境外資產需要另一套合規邏輯。
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span style="color:var(--orange);">Step 1</span> 開場破冰（30秒）</div>
+      <p style="font-size:0.87rem;">
+        <strong>目標：</strong>消除對方戒心，明確你不是來搶客戶的。<br><br>
+        「張總，久仰您在金稅四期合規和股權架構方面的專業造詣。今天我來，<strong>絕對不是要跟您搶國內業務的</strong>。恰恰相反，我是來當您的<strong>境外特種兵</strong>的。」<br><br>
+        <em>關鍵點：先讚美對方的專業能力，再用「特種兵」這個比喻建立獨特的合作定位。</em>
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span style="color:var(--orange);">Step 2</span> 遞刀子（90秒）</div>
+      <p style="font-size:0.87rem;">
+        <strong>目標：</strong>讓對方意識到他的大客戶正面臨他解決不了的危機。<br><br>
+        「不知道您最近有沒有遇到這樣一種情況：您在國內幫客戶把稅務理得非常乾淨，但他早年留在香港或新加坡銀行的幾百萬美金，最近一直收到銀行催促填寫 CRS 稅籍聲明，甚至威脅要凍結賬戶？<br><br>
+        這類客戶現在慌得要死。因為他們在國內越合規，越怕海外賬戶突然被銀行『一刀切』通報回來。<strong>一旦通報，海外資金的歷史第一桶金問題、外匯合規問題，會直接把您在國內辛辛苦苦幫他建立的合規架構給沖垮。</strong>」<br><br>
+        <em>關鍵點：用具體場景描述讓對方產生畫面感，強調「國內合規成果被海外問題沖垮」的連鎖風險。</em>
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span style="color:var(--orange);">Step 3</span> 拓寬視野（60秒）</div>
+      <p style="font-size:0.87rem;">
+        <strong>目標：</strong>展示你的專業深度，讓對方意識到這是<strong>認知差</strong>而非能力差。<br><br>
+        <strong>三大盲區（快速點破）：</strong><br>
+        ① <strong>CRS 不是無差別通報。</strong>只要將資產從 Passive NFE 升格為 FI，銀行在前端就依法停止穿透。<br>
+        ② <strong>換香港身份不是給內地稅局看的，是給海外開戶行看的。</strong>只要銀行不生成交換報告，內地稅局手裡沒有數據。<br>
+        ③ <strong>傳統 BVI / 香港殼公司現在已是高危黑戶</strong>，正面臨大面積凍結與銷戶潮。需要的是 OFC + EAM + SFO 的現代金融工具組合。<br><br>
+        <em>關鍵點：用「補充不是批評」的態度，讓對方感受到你是在幫他的專業「買保險」。</em>
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span style="color:var(--orange);">Step 4</span> 呈現解法（60秒）</div>
+      <p style="font-size:0.87rem;">
+        <strong>目標：</strong>用簡潔有力的對比讓對方記住你的價值。<br><br>
+        「簡單說，國內稅務籌劃止於深圳河。您幫客戶建的防火牆只覆蓋到邊境線。我們團隊專門在香港做境外防空洞——利用單一家族辦公室和開放式基金公司架構，把客戶的資產屬性從 Passive NFE 翻轉成 FI。<br><br>
+        <strong>結果就是：您的國內防火牆 + 我們的境外防空洞 = 客戶資產真正安全。</strong>」<br><br>
+        <em>關鍵點：「防火牆+防空洞」的比喻極容易記住和傳播。不要用太多術語，一句話說清楚價值。</em>
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span style="color:var(--orange);">Step 5</span> 邀請合作（60秒）</div>
+      <p style="font-size:0.87rem;">
+        <strong>目標：</strong>把單次推銷轉化為<strong>長期合作邀約</strong>。<br><br>
+        「這個業務，我們完全可以聯手來做。您手上有『錢在內地、想出海的』企業家，介紹給我做業務出海架構。我手上的客戶如果在境外遇到國內稅務稽查的問題，第一時間轉介給您來救火。<br><br>
+        另外，您本來只能賺國內企業幾萬塊的稅務審計費。現在疊加了我們的海外家辦架構，您可以跟客戶收幾十萬的『全球資產安全隔離顧問費』，<strong>利潤我們分成</strong>。」<br><br>
+        <em>關鍵點：給出三個合作理由：雙向引流、專業避險、提升客單價。</em>
+      </p>
+    </div>
+  </section>
+
+  <section id="cases">
+    <h3>客戶案例範本</h3>
+    <table>
+      <tr>
+        <th style="width:15%;">客戶</th>
+        <th style="width:30%;">背景</th>
+        <th style="width:20%;">風險評級</th>
+        <th style="width:35%;">結果</th>
+      </tr>
+      <tr>
+        <td><strong>張先生</strong><br><small>輕量級</small></td>
+        <td>38歲，高才通第2年，住宅800萬，個人名下收租2.8萬/月</td>
+        <td><span style="color:var(--danger);">🔴 高風險 (14/20)</span></td>
+        <td>第3個月 CoR 到手，第4個月銀行標籤更新為香港。客戶：「早知道這麼簡單，去年就該做了」</td>
+      </tr>
+      <tr>
+        <td><strong>李女士</strong><br><small>標準級</small></td>
+        <td>45歲，專才通第4年，2套住宅2,200萬，其中1套公司持有（Passive NFE）</td>
+        <td><span style="color:var(--danger);">🔴 高風險 (17/20)</span></td>
+        <td>第6個月三層架構完成，第12個月稅務成本降低約45%。客戶：「終於不用擔心銀行每年問話了」</td>
+      </tr>
+      <tr>
+        <td><strong>陳氏家族</strong><br><small>高端級</small></td>
+        <td>52歲，投資移民第6年，商業大廈+3套住宅共1.8億，多公司架構混亂</td>
+        <td><span style="color:var(--danger);">⛔ 極高風險 (22/20)</span></td>
+        <td>第6個月 LPF 完成，第12個月節稅55%，第24個月永居申請成功。客戶：「這是我做過最值得的投資」</td>
+      </tr>
+    </table>
+  </section>
+
+  <!-- ==================== TECHNICAL ==================== -->
+  <section id="fihev">
+    <h2>五、FIHV 稅務寬免四大支柱</h2>
+
+    <table>
+      <tr>
+        <th style="width:22%;">支柱</th>
+        <th style="width:25%;">門檻</th>
+        <th>說明與紅線</th>
+      </tr>
+      <tr>
+        <td><strong>支柱一：資產門檻</strong></td>
+        <td>AUM ≥ <strong>2.4億</strong> 港元</td>
+        <td>管理的家族資產淨值最低門檻，允許跨實體合盤計算</td>
+      </tr>
+      <tr>
+        <td><strong>支柱二：本地員工</strong></td>
+        <td>≥ <strong>2名</strong> 全職合資格員工</td>
+        <td>具備金融/法律/會計等相關資歷，必須在香港本地聘用。不能為「掛名」員工，需有實質工作記錄。</td>
+      </tr>
+      <tr>
+        <td><strong>支柱三：營運開支</strong></td>
+        <td>≥ <strong>200萬</strong> 港元/年</td>
+        <td>每年在港產生的實質營運開支（租金、薪資、專業服務費）。不可計入投資本身的成本或非香港產生的開支。</td>
+      </tr>
+      <tr>
+        <td><strong>支柱四：交易執行</strong></td>
+        <td><strong>9號牌</strong> EAM 機構主導執行</td>
+        <td>交易必須由指定人士（持牌 EAM）在香港主導、安排或執行。OFC 必須聘請持 SFC 9號牌機構擔任投資經理。</td>
+      </tr>
+    </table>
+
+    <div class="box box-safe">
+      <div class="box-title">✅ 滿足四大支柱 → OFC 投資收益利得稅率 = 0%</div>
+      原稅率 16.5% 全額豁免。以 2.4億港元資產、年收益 6% 計算：<br>
+      年利潤 = 1,440萬 → 正常繳稅 237萬 → 家辦年營運開銷 200萬<br>
+      <strong>把原本要送給稅局的 237萬，轉化為自己香港公司的辦公室租金和員工薪水。</strong>
+    </div>
+
+    <div class="box box-danger">
+      <div class="box-title">🚫 合規紅線（不容踩踏）</div>
+      • 家族持有比例：≥95%（無慈善）或 ≥75%（有慈善）<br>
+      • 中央管理及控制必須在港，董事會會議應在港舉行<br>
+      • 不得向非家族實體提供服務<br>
+      • 附帶交易不得超過總收入 5%<br>
+      • SFO 對外提供服務 → 必須申領 9號牌（內部管理家族資產可豁免）
+    </div>
+  </section>
+
+  <section id="accounting">
+    <h3>會計分錄速查</h3>
+
+    <h4>1. 股東貸款發放</h4>
+    <p style="font-size:0.85rem; color:#555;">情境：BVI HoldCo 借款 HKD 10,000,000 予香港 SPV</p>
+    <div class="grid-2">
+      <div class="box box-neutral" style="margin:8px 0;">
+        <div class="box-title">BVI HoldCo 賬</div>
+        借：關聯方應收款（1220） 10,000,000<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;貸：銀行存款 10,000,000
+      </div>
+      <div class="box box-neutral" style="margin:8px 0;">
+        <div class="box-title">香港 SPV 賬</div>
+        借：銀行存款 10,000,000<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;貸：關聯方應付款—非流動負債（2220） 10,000,000
+      </div>
+    </div>
+
+    <h4>2. 收到租金 + 償還本金</h4>
+    <p style="font-size:0.85rem; color:#555;">情境：月租 HKD 80,000，其中 HKD 60,000 用於償還本金</p>
+    <div class="box box-neutral" style="margin:8px 0;">
+      <div class="box-title">香港 SPV 賬（綜合）</div>
+      借：銀行存款 80,000　　貸：租金收入 80,000<br>
+      借：關聯方應付款 60,000　　貸：銀行存款 60,000<br><br>
+      <strong>關鍵：</strong>轉賬時銀行備註必須寫明「Loan Repayment — Principal」，不可寫「Dividend」或「Profit Distribution」。
+    </div>
+
+    <h4>3. BVI 端收到本金償還</h4>
+    <div class="box box-neutral" style="margin:8px 0;">
+      <div class="box-title">BVI HoldCo 賬</div>
+      借：銀行存款 60,000<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;貸：關聯方應收款 60,000<br><br>
+      <strong>核心原則：</strong>BVI 端收到本金償還<strong>不做任何收入確認</strong>，僅為資產負債表內科目對沖。這是整個架構的核心機制。
+    </div>
+
+    <h4>4. 香港利得稅申報</h4>
+    <table>
+      <tr>
+        <th>項目</th>
+        <th>金額（HKD）</th>
+      </tr>
+      <tr><td>年租金收入</td><td>300,000</td></tr>
+      <tr><td>減：物管費</td><td>(36,000)</td></tr>
+      <tr><td>減：差餉</td><td>(4,800)</td></tr>
+      <tr><td>減：維修費</td><td>(10,000)</td></tr>
+      <tr><td>減：利息支出</td><td>(180,000)</td></tr>
+      <tr style="font-weight:600;"><td>應稅利潤</td><td>69,200</td></tr>
+      <tr style="color:var(--safe); font-weight:600;"><td>應繳利得稅（8.25%半稅率）</td><td>5,709</td></tr>
+    </table>
+    <p style="font-size:0.82rem; color:var(--gray);">
+      香港法團利得稅率：16.5%（首 HKD 2,000,000 應稅利潤按 8.25%）。
+      物業租金收入屬香港來源收入，<strong>不可申請離岸豁免</strong>。
+    </p>
+  </section>
+
+  <section id="qa">
+    <h3>技術 Q&A TOP 10</h3>
+
+    <div class="card">
+      <div class="card-title"><span class="card-badge danger">高風險</span> Q6：銀行問 SPV 是不是 Passive NFE，怎麼回答？</div>
+      <p style="font-size:0.85rem;">
+        <strong>回答：「不是，SPV 是 Active NFE。」</strong><br>
+        須準備文件包：商業計劃書、有效租約、本地董事委任書、董事會會議記錄、本地銀行賬戶證明、物業管理委聘書。<br>
+        <em>風險等級：高。若被歸類為 Passive NFE，整個架構的隱私保護效果大打折扣。</em>
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="card-badge danger">高風險</span> Q9：BVI 公司經濟實質法每年要申報什麼？</div>
+      <p style="font-size:0.85rem;">
+        每年須向 BVI FSC 提交 Economic Substance Return，申報7項內容（活動類別、總收入、CIGA情況、營運開支、員工數、辦公場所、董事會會議次數）。<br>
+        控股公司適用較低標準（Reduced Substance Test）。逾期罰款 USD 3,000–6,000。<br>
+        <em>風險等級：高。</em>
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="card-badge danger">高風險</span> Q10：銀行每年 CRS 申報的截止時間？</div>
+      <p style="font-size:0.85rem;">
+        香港金融機構須在 <strong>每年5月31日前</strong> 提交上一年度 CRS 申報。<br>
+        會計師須在 <strong>每年10-12月</strong> 主動聯繫銀行，確認所有實體的 CRS 信息正確。<br>
+        <em>風險等級：高。</em>
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="card-badge warn">中風險</span> Q1：股東貸款利率設多少合適？</div>
+      <p style="font-size:0.85rem;">
+        建議 <strong>6.5–8.0%</strong>（HIBOR + spread 2-3%）。須準備利率基準文件（Benchmarking Study），比較至少3間銀行同類貸款利率。每年檢討一次。
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="card-badge warn">中風險</span> Q3：股東貸款和股本金的配比應該是多少？</div>
+      <p style="font-size:0.85rem;">
+        建議 <strong>債股本比例不超過 3:1</strong>。一般建議股本金至少為物業購置價的 25-30%，其餘以股東貸款形式提供。
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="card-badge warn">中風險</span> Q15：信託層面需要交稅嗎？</div>
+      <p style="font-size:0.85rem;">
+        (1) 信託本身：<strong>香港沒有信託利得稅</strong>。<br>
+        (2) 受益人收到分配：若為香港稅務居民，<strong>免稅</strong>（香港不徵股息稅）。若為內地稅務居民，須在內地申報全球收入。
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="card-badge safe">低風險</span> Q11：香港 SPV 的利得稅率是多少？</div>
+      <p style="font-size:0.85rem;">
+        法團 <strong>16.5%</strong>（首 HKD 2,000,000 按 <strong>8.25%</strong>）。沒有特定減免，但可通過最大化可抵扣支出降低應稅利潤。
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="card-badge safe">低風險</span> Q13：物業管理費和差餉如何處理？</div>
+      <p style="font-size:0.85rem;">
+        物業管理費和差餉在計算利得稅時 <strong>可全額扣除</strong>。須保留管理處收據及差餉繳納通知書作為憑證。
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== SOP ==================== -->
+  <section id="sop">
+    <h2>六、執行 SOP 速查</h2>
+
+    <h3>10步合作流程總覽</h3>
+    <table>
+      <tr>
+        <th style="width:8%;">步驟</th>
+        <th style="width:20%;">環節</th>
+        <th style="width:35%;">核心動作</th>
+        <th style="width:37%;">關鍵輸出 / 注意事項</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td><strong>客戶引薦</strong></td>
+        <td>接收合作夥伴引薦，檢查12項必填字段，CRM建檔</td>
+        <td>編號 CRS-YYYY-XXX；4條紅線不得接收；確認優先級</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><strong>初步篩選</strong></td>
+        <td>3道關卡：基本門檻 → 套餐判定 → 風險標記</td>
+        <td>物業估值≥500萬；判定原則<strong>寧高勿低</strong>；結果有效期30天</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><strong>CRS體檢</strong></td>
+        <td>30分鐘一對一診斷，20項檢查清單逐項評分</td>
+        <td>免費服務；必須錄音（獲同意）；極高風險（31+分）報合規總監</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td><strong>方案設計</strong></td>
+        <td>確認套餐級別，規劃7年時間軸，設計具體架構</td>
+        <td>技術底線：穿透終點必須是「香港稅務居民」；必含免責聲明</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td><strong>報價溝通</strong></td>
+        <td>解釋報價結構（顧問費+第三方規費），價值傳達</td>
+        <td>報價有效期30天；未經批准不得降價超10%</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td><strong>簽約收款</strong></td>
+        <td>簽署服務協議，收取首款，啟動項目</td>
+        <td>6項必備條款（範圍/付款/保密/免責/終止/仲裁）；以銀行到賬為準</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td><strong>架構搭建</strong></td>
+        <td>按7年時間軸推進，每個里程碑提交進度報告</td>
+        <td>里程碑收款綁定；客戶配合逾期14天報PM協調</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td><strong>銀行開戶</strong></td>
+        <td>協助開設 SPV 賬戶，爭取 Active NFE 分類</td>
+        <td><strong>Active NFE 是核心</strong>；預留2-4週；備選銀行策略</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td><strong>交付培訓</strong></td>
+        <td>交付法律文件，4模塊操作培訓（架構/走賬/申報/禁止事項）</td>
+        <td>強烈建議面對面；操作手冊必須中文；培訓錄影存檔≥7年</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td><strong>年度維護</strong></td>
+        <td>SPV維護、會計審計、信託維護、年度復檢</td>
+        <td>6項紅線絕對不能延誤；逾期60天發暫停預告</td>
+      </tr>
+    </table>
+  </section>
+
+  <section id="bank">
+    <h3>銀行開戶要點</h3>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">SPV 公司層面文件</div>
+        <ul style="font-size:0.82rem;">
+          <li>公司註冊證書（CI）</li>
+          <li>商業登記證（BR）</li>
+          <li>公司章程（M&A）</li>
+          <li>董事及股東名册</li>
+          <li>董事會決議（授權開戶）</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">業務證明文件（爭取 Active NFE）</div>
+        <ul style="font-size:0.82rem;">
+          <li>商業計劃書</li>
+          <li>物業租約或意向書</li>
+          <li>物業管理委聘書</li>
+          <li>本地董事委任書</li>
+          <li>董事會會議記錄</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box box-warn">
+      <div class="box-title">⚠️ Active NFE 爭取策略</div>
+      SPV 從事物業租賃業務，若有<strong>實質經營活動</strong>（主動管理租約、維護物業、作出商業決策），即使收入主要為租金，仍可能被歸類為 Active NFE。<br><br>
+      不同銀行對 Active NFE 的審核嚴格度不同。建議優先考慮：匯豐、中銀香港、恒生等。<br>
+      近年對內地客戶開戶審核趨嚴，預留充足時間（<strong>2-4週</strong>）。
+    </div>
+  </section>
+
+  <section id="maintenance">
+    <h3>年度維護紅線（6項絕對不能延誤）</h3>
+
+    <table>
+      <tr>
+        <th style="width:8%;">#</th>
+        <th style="width:30%;">紅線事項</th>
+        <th style="width:25%;">逾期後果</th>
+        <th>提醒機制</th>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--danger);">1</strong></td>
+        <td>周年申報表（AR）提交</td>
+        <td>公司可能被除名</td>
+        <td>提前30天提醒</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--danger);">2</strong></td>
+        <td>商業登記證（BR）續期</td>
+        <td>罰款+業務受阻</td>
+        <td>提前30天提醒</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--danger);">3</strong></td>
+        <td>利得稅報稅表（BIR54）提交</td>
+        <td>稅局估稅+罰款</td>
+        <td>提前30天提醒</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--danger);">4</strong></td>
+        <td>年度審計報告完成</td>
+        <td>無法提交報稅表</td>
+        <td>提前30天提醒</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--danger);">5</strong></td>
+        <td>BVI 經濟實質申報</td>
+        <td>罰款 USD 3,000-6,000</td>
+        <td>提前30天提醒</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--danger);">6</strong></td>
+        <td>CRS 自我評估檢查</td>
+        <td>穿透風險失控</td>
+        <td>提前30天提醒</td>
+      </tr>
+    </table>
+
+    <div class="box box-tip">
+      <div class="box-title">📌 維護費催繳流程</div>
+      年度開始 → PM 發出通知 → 發出維護費通知及發票 → 客戶支付（30天內）→ 合作夥伴端分潤（5工作日內）→ 維護服務正式啟動<br><br>
+      <strong>逾期處理：</strong>逾期60天 → 發《服務暫停預告》→ 逾期90天 → 可暫停服務（但法定申報仍需完成，費用累計追收）。
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <section style="margin-top:60px; padding-top:32px; border-top:1px dashed var(--border);">
+    <p style="font-size:0.78rem; color:var(--gray); line-height:1.8;">
+      <strong>重要免責聲明：</strong><br>
+      本指南所述架構、方案及收費標準僅供專業研究參考，不構成正式稅務、法律或投資意見。CRS、CFC、受控外國企業規則及各地稅法具有複雜性與時效性，具體個案應諮詢持牌稅務師、律師及法律顧問。任何架構調整均需以合法合規為前提，不得用於規避法定申報義務。過往未申報的境外收入應主動向稅務機關說明情況。「0% 利得稅」「免稅」等表述均指在滿足特定法定條件下的稅務優化結果，不代表無條件適用。具體稅務處理需結合交易結構、經濟實質及當地法規核定。本方案涉及跨境法律實體設立，需遵守各司法管轄區的反洗錢（AML）及實質經濟法規要求。
+    </p>
+    <p style="font-size:0.72rem; color:#aaa; margin-top:16px; text-align:center; letter-spacing:0.08em;">
+      CRS LAB · 跨境資產合規總建築師團隊 · 內部機密文件 · 僅限授權人員查閱
+    </p>
+  </section>
+
+</main>
+
+<script>
+  // Highlight active nav link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  function onScroll() {
+    let current = '';
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= 100) current = sec.id;
+    });
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+</script>
+
+</body>
+</html>

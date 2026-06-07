@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="darkreader" content="false">
+  <title>CRS 真实商业实质架构案例 · 合规对照指南</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { color-scheme: light; --hermes-orange: #FF6600; --charcoal: #1A1A1A; --ivory: #F5F0EB; --gold: #C5A059; --gray: #7F7F7F; --danger: #C0392B; --success: #27AE60; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background: var(--ivory); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23F5F0EB'/%3E%3C/svg%3E"); color: var(--charcoal); font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.7; overflow-x: hidden; }
+    body { min-height: 100vh; position: relative; }
+
+    .slides-container { position: relative; width: 100%; min-height: 100vh; }
+    .slide { position: absolute; top: 0; left: 0; width: 100%; min-height: 100vh; opacity: 0; visibility: hidden; transition: opacity 0.6s ease, visibility 0.6s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 5% 100px; overflow-y: auto; }
+    .slide.active { opacity: 1; visibility: visible; z-index: 10; }
+    .slide-inner { max-width: 980px; width: 100%; }
+
+    h1, h2, h3, h4 { font-family: "Noto Serif SC", serif; font-weight: 400; letter-spacing: 0.08em; }
+    .slide-num { font-size: 0.7rem; color: var(--gray); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+    .slide-title { font-size: clamp(1.4rem, 3vw, 2rem); margin-bottom: 12px; line-height: 1.3; }
+    .slide-subtitle { font-size: clamp(0.85rem, 1.5vw, 1rem); color: var(--gray); max-width: 600px; margin-bottom: 36px; }
+    .gold-line { width: 40px; height: 1px; background: var(--gold); margin: 16px 0; }
+    .gold-line.center { margin: 16px auto; }
+
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 24px; }
+    .info-card { background: #fff; border: 1px solid rgba(26,26,26,0.1); padding: 24px 20px; transition: all 0.3s; }
+    .info-card:hover { border-color: var(--gold); box-shadow: 0 8px 24px rgba(26,26,26,0.06); }
+    .info-card .tag { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); margin-bottom: 8px; }
+    .info-card h4 { font-size: 1.05rem; margin-bottom: 8px; }
+    .info-card p { font-size: 0.82rem; color: #555; line-height: 1.6; }
+
+    .danger-card { border-left: 3px solid var(--danger); background: #FBE9E7; padding: 18px 20px; }
+    .success-card { border-left: 3px solid var(--success); background: #E8F5E9; padding: 18px 20px; }
+
+    .quote-box { background: #fff; border: 1px solid rgba(26,26,26,0.1); padding: 28px 32px; position: relative; margin: 20px 0; }
+    .quote-box::before { content: "\201C"; font-size: 3.5rem; line-height: 1; color: var(--gold); opacity: 0.25; position: absolute; top: 8px; left: 20px; font-family: Georgia, serif; }
+    .quote-box p { padding-left: 16px; font-size: 0.92rem; line-height: 1.9; color: #333; }
+    .quote-author { display: block; margin-top: 16px; padding-left: 16px; font-size: 0.8rem; color: var(--gray); letter-spacing: 0.05em; }
+
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 16px 0; background: #fff; }
+    .data-table th { text-align: left; padding: 12px 14px; font-weight: 600; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray); border-bottom: 2px solid var(--charcoal); background: var(--ivory); }
+    .data-table td { padding: 12px 14px; border-bottom: 1px solid rgba(26,26,26,0.08); vertical-align: top; }
+    .data-table .highlight { color: var(--hermes-orange); font-weight: 600; }
+    .data-table .match { color: var(--success); font-weight: 600; }
+
+    .arch-svg { width: 100%; max-width: 800px; margin: 20px auto; display: block; }
+    .arch-box { fill: #fff; stroke: var(--charcoal); stroke-width: 1.5; }
+    .arch-label { font-family: "Noto Sans SC", sans-serif; font-size: 13px; fill: var(--charcoal); text-anchor: middle; }
+    .arch-sublabel { font-family: "Noto Sans SC", sans-serif; font-size: 10px; fill: var(--gray); text-anchor: middle; }
+    .arch-arrow { stroke: var(--gold); stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+    .arch-amount { font-family: "Noto Sans SC", sans-serif; font-size: 10px; fill: var(--hermes-orange); text-anchor: middle; font-weight: 500; }
+
+    .checklist { display: flex; flex-direction: column; gap: 10px; max-width: 640px; margin: 0 auto; }
+    .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; background: #fff; border: 1px solid rgba(26,26,26,0.08); font-size: 0.88rem; }
+    .check-box { width: 18px; height: 18px; border: 2px solid var(--charcoal); border-radius: 3px; flex-shrink: 0; margin-top: 2px; }
+
+    .compare-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+    .compare-col { padding: 24px; }
+    .compare-col.bad { background: #FBE9E7; border-left: 3px solid var(--danger); }
+    .compare-col.good { background: #E8F5E9; border-left: 3px solid var(--success); }
+
+    .flow-chain { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 24px 0; font-size: 0.82rem; }
+    .flow-block { background: var(--charcoal); color: var(--ivory); padding: 10px 16px; border-radius: 4px; font-weight: 500; white-space: nowrap; }
+    .flow-block.light { background: #fff; color: var(--charcoal); border: 1px solid var(--charcoal); }
+    .flow-arrow-s { color: var(--gold); font-size: 1.2rem; }
+    .flow-doc { font-size: 0.7rem; color: var(--gray); display: block; margin-top: 4px; text-align: center; }
+
+    .controls-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(245,240,235,0.95); backdrop-filter: blur(8px); border-top: 1px solid rgba(26,26,26,0.08); padding: 14px 5%; display: flex; align-items: center; justify-content: center; gap: 20px; z-index: 1000; }
+    .nav-btn { width: 36px; height: 36px; border: 1px solid var(--charcoal); background: transparent; color: var(--charcoal); font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+    .nav-btn:hover { background: var(--charcoal); color: var(--ivory); }
+    .dots-wrap { display: flex; gap: 6px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(26,26,26,0.2); cursor: pointer; transition: all 0.3s; }
+    .dot.active { background: var(--hermes-orange); transform: scale(1.3); }
+    .slide-counter { font-size: 0.75rem; color: var(--gray); min-width: 50px; text-align: center; }
+
+    @media (max-width: 768px) {
+      .slide { padding: 40px 5% 90px; }
+      .compare-row { grid-template-columns: 1fr; }
+      .card-grid { grid-template-columns: 1fr; }
+      .flow-chain { flex-direction: column; gap: 6px; }
+      .flow-arrow-s { transform: rotate(90deg); }
+    }
+
+    @media print {
+      .slide { position: static; opacity: 1 !important; visibility: visible !important; min-height: auto; page-break-after: always; padding: 30px 5%; }
+      .controls-bar { display: none !important; }
+      .slide:last-child { page-break-after: auto; }
+    }
+  </style>
+</head>
+<body>
+<div class="slides-container">
+
+<!-- ============ SLIDE 01: Cover ============ -->
+<div class="slide active" data-index="0">
+  <div class="slide-inner" style="text-align:center;">
+    <div class="slide-num">Case Study / Architecture Compliance</div>
+    <h1 class="slide-title" style="font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:0.12em;">CRS 框架下的<br>真实商业实质架构</h1>
+    <div class="gold-line center"></div>
+    <p class="slide-subtitle" style="margin:0 auto 32px;">一个让所有专业人士都点头的案例<br> Charlie Munger · 逆向思维 · 第一性原理</p>
+    <div style="font-size:0.75rem;color:var(--gray);letter-spacing:0.1em;margin-top:40px;">← 使用键盘左右箭头或点击圆点切换页面 →</div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 02: Profile ============ -->
+<div class="slide" data-index="1">
+  <div class="slide-inner">
+    <div class="slide-num">02 / Profile</div>
+    <h2 class="slide-title">人物设定</h2>
+    <div class="gold-line"></div>
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:36px;align-items:start;margin-top:24px;">
+      <div style="text-align:center;">
+        <div style="width:100px;height:100px;border-radius:50%;background:var(--charcoal);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC',serif;font-size:2rem;margin:0 auto 16px;">陈</div>
+        <div style="font-size:1.1rem;font-weight:500;">陈先生</div>
+        <div style="font-size:0.8rem;color:var(--gray);">50 岁 · 深圳</div>
+      </div>
+      <div>
+        <div class="info-card" style="margin-bottom:12px;">
+          <div class="tag">背景</div>
+          <p>工业物联网企业家，东莞工厂年营收 5 亿人民币，35% 客户来自东南亚。</p>
+        </div>
+        <div class="info-card" style="margin-bottom:12px;">
+          <div class="tag">目标</div>
+          <p>在香港设立区域总部，拓展东南亚市场；购置办公物业（部分自用、部分出租）。</p>
+        </div>
+        <div class="info-card">
+          <div class="tag">家庭</div>
+          <p>儿子在港科大读硕士，未来可能接班。架构需兼顾商业运营与代际传承。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 03: Core Proposition ============ -->
+<div class="slide" data-index="2">
+  <div class="slide-inner" style="text-align:center;">
+    <div class="slide-num">03 / Charlie Munger</div>
+    <h2 class="slide-title" style="font-size:clamp(1.6rem,3.5vw,2.4rem);">Invert, Always Invert</h2>
+    <div class="gold-line center"></div>
+    <p style="font-size:clamp(1rem,2vw,1.3rem);color:#555;max-width:640px;margin:0 auto 40px;line-height:1.8;">
+      不是问自己「我怎么让 CRS 看不到」<br>
+      而是问自己<br>
+      <strong style="color:var(--hermes-orange);">「税务局拿到这组数字后，会怎么思考？」</strong>
+    </p>
+    <div class="compare-row" style="max-width:720px;margin:0 auto;">
+      <div class="compare-col bad">
+        <h4 style="color:var(--danger);margin-bottom:12px;">❌ 错误思维</h4>
+        <p style="font-size:0.85rem;line-height:1.7;">怎么设计一个架构<br>让税务局查不到？</p>
+      </div>
+      <div class="compare-col good">
+        <h4 style="color:var(--success);margin-bottom:12px;">✓ 正确思维</h4>
+        <p style="font-size:0.85rem;line-height:1.7;">怎么设计一个架构<br>让税务局看了也没什么好问的？</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 04: Bad Architecture ============ -->
+<div class="slide" data-index="3">
+  <div class="slide-inner">
+    <div class="slide-num">04 / Anti-Pattern</div>
+    <h2 class="slide-title">❌ 架构 A：一查就塌</h2>
+    <div class="gold-line"></div>
+    <p class="slide-subtitle">典型的「管道型」空壳架构——5 个致命缺陷</p>
+    <div class="card-grid">
+      <div class="danger-card">
+        <div style="font-size:0.7rem;color:var(--danger);font-weight:600;margin-bottom:6px;">缺陷 01</div>
+        <h4 style="font-size:0.95rem;margin-bottom:6px;">0 员工 · 0 办公</h4>
+        <p style="font-size:0.8rem;color:#555;">BVI 壳公司，没有任何雇员，唯一资产是一套住宅物业。</p>
+      </div>
+      <div class="danger-card">
+        <div style="font-size:0.7rem;color:var(--danger);font-weight:600;margin-bottom:6px;">缺陷 02</div>
+        <h4 style="font-size:0.95rem;margin-bottom:6px;">0% 利率 · 无期限</h4>
+        <p style="font-size:0.8rem;color:#555;">股东贷款没有任何商业特征，本质是变相注资。</p>
+      </div>
+      <div class="danger-card">
+        <div style="font-size:0.7rem;color:var(--danger);font-weight:600;margin-bottom:6px;">缺陷 03</div>
+        <h4 style="font-size:0.95rem;margin-bottom:6px;">利润 = 0%</h4>
+        <p style="font-size:0.8rem;color:#555;">租金 30 万 → 100% 以「还本金」流回股东。利润率为零。</p>
+      </div>
+      <div class="danger-card">
+        <div style="font-size:0.7rem;color:var(--danger);font-weight:600;margin-bottom:6px;">缺陷 04</div>
+        <h4 style="font-size:0.95rem;margin-bottom:6px;">0 运营成本</h4>
+        <p style="font-size:0.8rem;color:#555;">无管理、无维修、无保险记录。不像真实物业管理。</p>
+      </div>
+      <div class="danger-card">
+        <div style="font-size:0.7rem;color:var(--danger);font-weight:600;margin-bottom:6px;">缺陷 05</div>
+        <h4 style="font-size:0.95rem;margin-bottom:6px;">申报 = 0</h4>
+        <p style="font-size:0.8rem;color:#555;">内地境外收入申报为零，与 CRS 数据直接矛盾。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 05: Why Collapses ============ -->
+<div class="slide" data-index="4">
+  <div class="slide-inner">
+    <div class="slide-num">05 / Detection</div>
+    <h2 class="slide-title">为什么税务局 5 分钟就能看穿</h2>
+    <div class="gold-line"></div>
+    <p class="slide-subtitle">自动比对脚本的异常检测逻辑</p>
+    <div style="background:#fff;border:1px solid rgba(26,26,26,0.1);padding:28px 32px;margin-top:20px;">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center;margin-bottom:24px;">
+        <div><div style="width:48px;height:48px;border-radius:50%;background:var(--ivory);border:2px solid var(--danger);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:1.2rem;">1</div><div style="font-size:0.78rem;">CRS 数据录入</div></div>
+        <div><div style="width:48px;height:48px;border-radius:50%;background:var(--ivory);border:2px solid var(--hermes-orange);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:1.2rem;">2</div><div style="font-size:0.78rem;">算法异常检测</div></div>
+        <div><div style="width:48px;height:48px;border-radius:50%;background:var(--ivory);border:2px solid var(--hermes-orange);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:1.2rem;">3</div><div style="font-size:0.78rem;">自动标记</div></div>
+        <div><div style="width:48px;height:48px;border-radius:50%;background:var(--ivory);border:2px solid var(--danger);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:1.2rem;">4</div><div style="font-size:0.78rem;">稽查启动</div></div>
+      </div>
+      <table class="data-table" style="margin:0;">
+        <tr><th>检测维度</th><th>算法看到的 Pattern</th><th>判定结果</th></tr>
+        <tr><td>利润率</td><td>连续 5 年利润 = 0%，收入 100% 关联方流出</td><td class="highlight">管道型实体</td></tr>
+        <tr><td>申报比对</td><td>CRS 显示境外收入 30 万/年，内地申报 = 0</td><td class="highlight">异常标记</td></tr>
+        <tr><td>成本结构</td><td>零管理费用、零维修费用、零保险支出</td><td class="highlight">非真实运营</td></tr>
+        <tr><td>贷款特征</td><td>0% 利率、无期限、无担保、无书面协议</td><td class="highlight">伪装贷款</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 06: Architecture Overview SVG ============ -->
+<div class="slide" data-index="5">
+  <div class="slide-inner">
+    <div class="slide-num">06 / Overview</div>
+    <h2 class="slide-title">✅ 架构 B 总览</h2>
+    <div class="gold-line"></div>
+    <p class="slide-subtitle">三层实体，每一层都有真实商业目的</p>
+
+    <svg class="arch-svg" viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#C5A059"/>
+        </marker>
+      </defs>
+      <!-- Layer 1: Mr Chen -->
+      <rect class="arch-box" x="260" y="20" width="280" height="90" rx="4"/>
+      <text class="arch-label" x="400" y="52">陈先生（内地税务居民）</text>
+      <text class="arch-sublabel" x="400" y="72">深圳工业物联网企业家 · TIN 已申报</text>
+      <text class="arch-sublabel" x="400" y="88">ODI 登记 + 股东贷款（有正式协议）</text>
+      <!-- Arrow 1: ODI -->
+      <line class="arch-arrow" x1="320" y1="110" x2="280" y2="170"/>
+      <text class="arch-amount" x="280" y="145">ODI 注资 1,000 万</text>
+      <!-- Arrow 2: Loan -->
+      <line class="arch-arrow" x1="480" y1="110" x2="520" y2="170"/>
+      <text class="arch-amount" x="520" y="145">股东贷款 500 万</text>
+      <!-- Layer 2: HK Tech -->
+      <rect class="arch-box" x="100" y="170" width="600" height="140" rx="4" style="stroke:var(--hermes-orange);stroke-width:2;"/>
+      <text class="arch-label" x="400" y="200" style="fill:var(--hermes-orange);font-weight:600;">HK Tech Limited（运营公司）</text>
+      <text class="arch-sublabel" x="400" y="222">4 名员工 · 科学园办公 · 800 万年收 · Active NFE</text>
+      <text class="arch-sublabel" x="400" y="240">业务：东南亚客户技术支持 + 分销管理</text>
+      <text class="arch-sublabel" x="400" y="258">利润：204 万/年（利润率 25.5%）· 留存 90 万</text>
+      <text class="arch-sublabel" x="400" y="276">分红 50 万 · 还贷 30 万 · 利得税 34 万</text>
+      <!-- Arrow 3: Internal investment -->
+      <line class="arch-arrow" x1="350" y1="310" x2="350" y2="360"/>
+      <text class="arch-amount" x="350" y="340">注资 1,000 万</text>
+      <!-- Layer 3: HK Property -->
+      <rect class="arch-box" x="100" y="360" width="600" height="120" rx="4" style="stroke:var(--gold);stroke-width:2;"/>
+      <text class="arch-label" x="400" y="390" style="fill:var(--gold);font-weight:600;">HK Property Limited（物业 SPV）</text>
+      <text class="arch-sublabel" x="400" y="412">持有观塘商业大厦 · 购价 3,000 万</text>
+      <text class="arch-sublabel" x="400" y="430">银行按揭 1,500 万 · 自用 40% · 出租 60%</text>
+      <text class="arch-sublabel" x="400" y="448">年租金 120 万 · 维修/空置/折旧均有记录</text>
+    </svg>
+
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
+      <span style="font-size:0.7rem;padding:4px 10px;background:var(--charcoal);color:#fff;border-radius:3px;">金色箭头 = 资金流向</span>
+      <span style="font-size:0.7rem;padding:4px 10px;background:var(--hermes-orange);color:#fff;border-radius:3px;">橙色边框 = 运营实体（Active NFE）</span>
+      <span style="font-size:0.7rem;padding:4px 10px;background:var(--gold);color:#fff;border-radius:3px;">金色边框 = 资产持有（Passive NFE）</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 07: Layer 1 HK Tech ============ -->
+<div class="slide" data-index="6">
+  <div class="slide-inner">
+    <div class="slide-num">07 / Layer 1</div>
+    <h2 class="slide-title">第一层：HK Tech — 不是壳，是真的在做事</h2>
+    <div class="gold-line"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:20px;">
+      <div>
+        <div class="info-card" style="margin-bottom:12px;">
+          <div class="tag">团队 · 4 人</div>
+          <p>技术总监 1 名 · 客户经理 2 名 · 行政 1 名<br><small style="color:var(--gray);">有雇佣合同 · MPF 记录 · 薪俸税申报</small></p>
+        </div>
+        <div class="info-card" style="margin-bottom:12px;">
+          <div class="tag">办公 · 科学园</div>
+          <p>共享办公空间，月租 8 万<br><small style="color:var(--gray);">有租约 · 租金发票 · 水电费账单</small></p>
+        </div>
+        <div class="info-card">
+          <div class="tag">客户 · 12 家分销商</div>
+          <p>马来西亚 · 泰国 · 越南<br><small style="color:var(--gray);">有服务合同 · 发票 · 银行流水</small></p>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(26,26,26,0.1);padding:24px;">
+        <div style="font-size:0.7rem;color:var(--gray);letter-spacing:0.1em;margin-bottom:12px;">HK TECH 年度损益表</div>
+        <table class="data-table" style="margin:0;font-size:0.8rem;">
+          <tr><td style="width:55%;">东南亚技术服务费</td><td style="text-align:right;">600 万</td></tr>
+          <tr><td>分销管理佣金</td><td style="text-align:right;">200 万</td></tr>
+          <tr style="border-top:2px solid var(--charcoal);"><td><strong>总收入</strong></td><td style="text-align:right;"><strong>800 万</strong></td></tr>
+          <tr><td style="color:var(--gray);">员工薪资（含 MPF）</td><td style="text-align:right;color:var(--gray);">240 万</td></tr>
+          <tr><td style="color:var(--gray);">办公室租金</td><td style="text-align:right;color:var(--gray);">96 万</td></tr>
+          <tr><td style="color:var(--gray);">市场推广 + 差旅</td><td style="text-align:right;color:var(--gray);">180 万</td></tr>
+          <tr><td style="color:var(--gray);">IT 系统 + 审计法务</td><td style="text-align:right;color:var(--gray);">50 万</td></tr>
+          <tr><td style="color:var(--gray);">其他运营杂费</td><td style="text-align:right;color:var(--gray);">30 万</td></tr>
+          <tr style="border-top:1px solid var(--charcoal);"><td><strong>总支出</strong></td><td style="text-align:right;"><strong>596 万</strong></td></tr>
+          <tr style="border-top:2px solid var(--hermes-orange);"><td><strong>税前利润</strong></td><td style="text-align:right;color:var(--hermes-orange);font-weight:600;"><strong>204 万（25.5%）</strong></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 08: Shareholder Loan ============ -->
+<div class="slide" data-index="7">
+  <div class="slide-inner">
+    <div class="slide-num">08 / Layer 2</div>
+    <h2 class="slide-title">第二层：股东贷款 — 凭什么经得起放大镜？</h2>
+    <div class="gold-line"></div>
+    <p class="slide-subtitle">6 个条款，每一个都「市场可比」</p>
+    <div class="card-grid" style="margin-top:24px;">
+      <div class="success-card" style="border-left:3px solid var(--success);">
+        <div style="font-size:0.75rem;color:var(--success);font-weight:600;margin-bottom:6px;">✓ 条款 01 · 利率</div>
+        <h4 style="font-size:1.1rem;margin-bottom:4px;">5.875%</h4>
+        <p style="font-size:0.82rem;color:#555;">Prime Rate + 2%<br>与香港银行同期商业贷款可比</p>
+      </div>
+      <div class="success-card" style="border-left:3px solid var(--success);">
+        <div style="font-size:0.75rem;color:var(--success);font-weight:600;margin-bottom:6px;">✓ 条款 02 · 期限</div>
+        <h4 style="font-size:1.1rem;margin-bottom:4px;">5 年</h4>
+        <p style="font-size:0.82rem;color:#555;">有明确到期日<br>非无限期、非按需还款</p>
+      </div>
+      <div class="success-card" style="border-left:3px solid var(--success);">
+        <div style="font-size:0.75rem;color:var(--success);font-weight:600;margin-bottom:6px;">✓ 条款 03 · 还款</div>
+        <h4 style="font-size:1.1rem;margin-bottom:4px;">等额本息</h4>
+        <p style="font-size:0.82rem;color:#555;">年还本金 100 万 + 利息 29.4 万<br>公司现金流可支撑</p>
+      </div>
+      <div class="success-card" style="border-left:3px solid var(--success);">
+        <div style="font-size:0.75rem;color:var(--success);font-weight:600;margin-bottom:6px;">✓ 条款 04 · 担保</div>
+        <h4 style="font-size:1.1rem;margin-bottom:4px;">物业第二抵押</h4>
+        <p style="font-size:0.82rem;color:#555;">HK Property 物业抵押<br>+ HK Tech 应收账款质押</p>
+      </div>
+      <div class="success-card" style="border-left:3px solid var(--success);">
+        <div style="font-size:0.75rem;color:var(--success);font-weight:600;margin-bottom:6px;">✓ 条款 05 · 违约</div>
+        <h4 style="font-size:1.1rem;margin-bottom:4px;">标准商业条款</h4>
+        <p style="font-size:0.82rem;color:#555;">逾期 30 天加收 2% 罚息<br>逾期 90 天可加速到期</p>
+      </div>
+      <div class="success-card" style="border-left:3px solid var(--success);">
+        <div style="font-size:0.75rem;color:var(--success);font-weight:600;margin-bottom:6px;">✓ 条款 06 · 文件</div>
+        <h4 style="font-size:1.1rem;margin-bottom:4px;">完整法律形式</h4>
+        <p style="font-size:0.82rem;color:#555;">双方签字 · 律师见证<br>公司注册处备案</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 09: Layer 3 HK Property ============ -->
+<div class="slide" data-index="8">
+  <div class="slide-inner">
+    <div class="slide-num">09 / Layer 3</div>
+    <h2 class="slide-title">第三层：HK Property — 有「毛刺」的物业管理</h2>
+    <div class="gold-line"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:20px;">
+      <div>
+        <div style="background:#fff;border:1px solid rgba(26,26,26,0.1);padding:24px;margin-bottom:16px;">
+          <div style="font-size:0.7rem;color:var(--gray);letter-spacing:0.1em;margin-bottom:12px;">物业详情</div>
+          <table class="data-table" style="margin:0;font-size:0.82rem;">
+            <tr><td style="width:45%;">位置</td><td>观塘商业大厦中层</td></tr>
+            <tr><td>面积</td><td>2,000 平方尺</td></tr>
+            <tr><td>购价</td><td>3,000 万港币</td></tr>
+            <tr><td>银行按揭</td><td>1,500 万（H+1.5%，25 年）</td></tr>
+            <tr><td>HK Tech 注资</td><td>1,000 万</td></tr>
+            <tr><td>陈先生贷款</td><td>500 万（转入 HK Tech）</td></tr>
+          </table>
+        </div>
+        <div style="display:flex;gap:12px;">
+          <div style="flex:1;background:var(--ivory);padding:16px;text-align:center;border:1px solid var(--gold);">
+            <div style="font-size:1.6rem;font-weight:600;color:var(--gold);">40%</div>
+            <div style="font-size:0.75rem;color:var(--gray);margin-top:4px;">自用（HK Tech 办公）</div>
+          </div>
+          <div style="flex:1;background:var(--ivory);padding:16px;text-align:center;border:1px solid var(--hermes-orange);">
+            <div style="font-size:1.6rem;font-weight:600;color:var(--hermes-orange);">60%</div>
+            <div style="font-size:0.75rem;color:var(--gray);margin-top:4px;">出租（第三方租客）</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(26,26,26,0.1);padding:24px;">
+        <div style="font-size:0.7rem;color:var(--gray);letter-spacing:0.1em;margin-bottom:12px;">年度运营（真实「毛刺」）</div>
+        <table class="data-table" style="margin:0;font-size:0.82rem;">
+          <tr><td>自用租金（按市场价）</td><td style="text-align:right;">40 万</td></tr>
+          <tr><td>外部租金收入</td><td style="text-align:right;">80 万</td></tr>
+          <tr style="border-top:1px solid var(--charcoal);"><td><strong>总收入</strong></td><td style="text-align:right;"><strong>120 万</strong></td></tr>
+          <tr><td style="color:var(--gray);">银行按揭利息</td><td style="text-align:right;color:var(--gray);">60 万</td></tr>
+          <tr><td style="color:var(--gray);">物业管理费</td><td style="text-align:right;color:var(--gray);">15 万</td></tr>
+          <tr><td style="color:var(--gray);">维修基金（空调/电梯）</td><td style="text-align:right;color:var(--gray);">10 万</td></tr>
+          <tr><td style="color:var(--gray);">保险费</td><td style="text-align:right;color:var(--gray);">5 万</td></tr>
+          <tr><td style="color:var(--gray);">差饷与地租</td><td style="text-align:right;color:var(--gray);">8 万</td></tr>
+          <tr><td style="color:var(--gray);">空置期损失（2 个月）</td><td style="text-align:right;color:var(--gray);">13 万</td></tr>
+          <tr style="border-top:2px solid var(--charcoal);"><td><strong>税前利润</strong></td><td style="text-align:right;font-weight:600;"><strong>9 万</strong></td></tr>
+        </table>
+        <div style="margin-top:12px;font-size:0.75rem;color:var(--gray);line-height:1.6;">
+          ⚡ 关键细节：有维修支出、有空置期、有折旧。这不是一个「租金进来马上流走」的管道，这是一个真实的物业管理实体。
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 10: Fund Flow ============ -->
+<div class="slide" data-index="9">
+  <div class="slide-inner">
+    <div class="slide-num">10 / Fund Flow</div>
+    <h2 class="slide-title">资金回流：每一步都有文档</h2>
+    <div class="gold-line"></div>
+    <div style="background:#fff;border:1px solid rgba(26,26,26,0.1);padding:32px;margin-top:20px;">
+      <div class="flow-chain">
+        <div class="flow-block">陈先生<br><span class="flow-doc">内地税务居民</span></div>
+        <span class="flow-arrow-s">→</span>
+        <div class="flow-block light">ODI 登记<br><span class="flow-doc">37 号文 / 发改委备案</span></div>
+        <span class="flow-arrow-s">→</span>
+        <div class="flow-block">注资 HK Tech<br><span class="flow-doc">1,000 万 · 股本</span></div>
+        <span class="flow-arrow-s">→</span>
+        <div class="flow-block light">股东贷款<br><span class="flow-doc">500 万 · 正式协议</span></div>
+      </div>
+      <div style="text-align:center;margin:12px 0;font-size:1.5rem;color:var(--gold);">↓</div>
+      <div class="flow-chain">
+        <div class="flow-block">HK Tech<br><span class="flow-doc">运营收入 800 万/年</span></div>
+        <span class="flow-arrow-s">→</span>
+        <div class="flow-block light">内部注资<br><span class="flow-doc">1,000 万 → HK Property</span></div>
+        <span class="flow-arrow-s">→</span>
+        <div class="flow-block">购置物业<br><span class="flow-doc">3,000 万 + 按揭 1,500 万</span></div>
+      </div>
+      <div style="text-align:center;margin:12px 0;font-size:1.5rem;color:var(--gold);">↓</div>
+      <div class="flow-chain">
+        <div class="flow-block">HK Tech 利润<br><span class="flow-doc">170 万/年（税后）</span></div>
+        <span class="flow-arrow-s">→</span>
+        <div class="flow-block light">分红 50 万<br><span class="flow-doc">董事会决议 · 分红记录</span></div>
+        <span class="flow-arrow-s">→</span>
+        <div class="flow-block light">还贷 130 万<br><span class="flow-doc">本金 100 + 利息 29.4</span></div>
+        <span class="flow-arrow-s">→</span>
+        <div class="flow-block">陈先生个人账户<br><span class="flow-doc">香港 · CRS 申报</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============ SLIDE 11: CRS Perspective ============ -->
+<div class="slide" data-index="10">
+  <div class="slide-inner">
+    <div class="slide-num">11 / CRS Data</div>
+    <h2 class="slide-title">CRS 视角：税务局实际看到的数字</h2>
+    <div class="gold-line"></div>
+    <p class="slide-subtitle">三个账户的年度快照，与内地申报完全匹配</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:20px;">
+      <div style="background:#fff;border:1px solid rgba(26,26,26,0.1);padding:20px;">
+        <div style="font-size:0.7rem;color:var(--gray);letter-spacing:0.1em;margin-bottom:10px;">陈先生 · 香港个人账户</div>
+        <table class="data-table" style="margin:0;font-size:0.78rem;">
+          <tr><td style="width:50%;">账户余额</td><td style="text-align:right;">逐年递增</td></tr>
+          <tr><td>年度收入总额</td><td style="text-align:right;">139.4 万</td></tr>
+          <tr><td style="color:var(--gray);">— 董事袍金</td><td style="text-align:right;color:var(--gray);">60 万</td></tr>
+          <tr><td style="color:var(--gray);">— 股息</td><td style="text-align:right;color:var(--gray);">50 万</td></tr>
+          <tr><td style="color:var(--gray);">— 贷款利息</td><td style="text-align:right;color:var(--gray);">29.4 万</td></tr>
+        </table>
+        <div style="margin-top:10px;font-size:0.7rem;color:var(--success);font-weight:600;">✓ 内地已申报匹配</div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(26,26,26,0.1);padding:20px;">
+        <div style="font-size:0.7rem;color:var(--gray);letter-spacing:0.1em;margin-bottom:10px;">HK Tech · 运营账户</div>
+        <table class="data-table" style="margin:0;font-size:0.78rem;">
+          <tr><td style="width:50%;">账户余额</td><td style="text-align:right;">~200 万</td></tr>
+          <tr><td>年度收入总额</td><td style="text-align:right;">800 万</td></tr>
+          <tr><td style="color:var(--gray);">— 技术服务费</td><td style="text-align:right;color:var(--gray);">600 万</td></tr>
+          <tr><td style="color:var(--gray);">— 分销佣金</td><td style="text-align:right;color:var(--gray);">200 万</td></tr>
+        </table>
+        <div style="margin-top:10px;font-size:0.7rem;color:var(--success);font-weight:600;">✓ 利得税已缴纳</div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(26,26,26,0.1);padding:20px;">
+        <div style="font-size:0.7rem;color:var(--gray);letter-spacing:0.1em;margin-bottom:10px;">HK Property · 物业账户</div>
+        <table class="data-table" style="margin:0;font-size:0.78rem;">
+          <tr><td style="width:50%;">账户余额</td><td style="text-align:right;">~50 万</td></tr>
+          <tr><td>年度收入总额</td><td style="text-align:right;">120 万</td></tr>
+          <tr><td style="color:var(--gray);">— 自用租金</td><td style="text-align:right;color:var(--gray);">40 万</td></tr>
+          <tr><td style="color:var(--gray);">— 外部租金</td><td style="text-align:right;color:var(--gray);">80 万</td></tr>
+        </table>
+        <div style="margin-top:10px;font-size:0.7rem;color:var(--success);font-weight:600;">✓ 物业税已缴纳</div>
+      </div>
+    </div>
+    <div style="margin-top:20px;padding:18px 22px;background:var(--ivory);border-left:3px solid var(--gold);font-size:0.85rem;line-height:1.7;">
+      <strong>关键匹配：</strong>CRS 显示陈先生年度境外收入 139.4 万，内地年度汇算清缴中境外收入栏同样申报 139.4 万。两端数字完全一致，没有异常触发点。
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 12: Accountant Review ============ -->
+<div class="slide" data-index="11">
+  <div class="slide-inner">
+    <div class="slide-num">12 / Review 1</div>
+    <h2 class="slide-title">持牌税务师审查结论</h2>
+    <div class="gold-line"></div>
+    <div class="quote-box">
+      <p>我审查了全部文件：
+      <br><br>ODI 登记完整，资金来源合法。HK Tech 有 4 名员工、有办公室、有客户合同、有审计报告——这是有实质运营的 Active NFE。
+      <br><br>股东贷款协议符合市场条件（利率 5.875%、有担保、有期限），不会被重定性。陈先生所有境外收入都在内地申报了。香港已缴纳利得税，内地可申请税收抵免。
+      <br><br>
+      <strong style="color:var(--success);">结论：这是一个合规的跨境商业架构。</strong></p>
+      <span class="quote-author">— 持牌税务师 · 香港会计师公会会员 · 15 年跨境税务经验</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;">
+      <div style="text-align:center;padding:16px;background:#E8F5E9;font-size:0.8rem;"><div style="color:var(--success);font-weight:600;margin-bottom:4px;">✓ ODI 合规</div>37 号文登记完整</div>
+      <div style="text-align:center;padding:16px;background:#E8F5E9;font-size:0.8rem;"><div style="color:var(--success);font-weight:600;margin-bottom:4px;">✓ 贷款合规</div>利率/担保/期限市场可比</div>
+      <div style="text-align:center;padding:16px;background:#E8F5E9;font-size:0.8rem;"><div style="color:var(--success);font-weight:600;margin-bottom:4px;">✓ 申报完整</div>CRS 数据与内地申报匹配</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 13: Judge Review ============ -->
+<div class="slide" data-index="12">
+  <div class="slide-inner">
+    <div class="slide-num">13 / Review 2</div>
+    <h2 class="slide-title">税务法官审查结论</h2>
+    <div class="gold-line"></div>
+    <div class="quote-box">
+      <p>如果本案进入诉讼，我需要判断是否存在「缺乏真实商业目的的避税安排」：
+      <br><br>HK Tech 的设立有真实商业必要性——东南亚客户服务是东莞工厂的延伸，不是凭空创造的。
+      <br><br>股东贷款有完整法律形式和商业合理性。所有交易都有书面文件和银行流水支撑。利润留存和分红比例合理。内地申报完整，没有隐瞒。
+      <br><br>原告（税务局）要证明「唯一或主要目的是避税」，但证据显示这是一个<strong>真实的商业运营实体</strong>。
+      <br><br>
+      <strong style="color:var(--success);">结论：一般反避税条款不适用。</strong></p>
+      <span class="quote-author">— 税务法官 · 内地某省高级人民法院 · 10 年涉税案件审判经验</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;">
+      <div style="text-align:center;padding:16px;background:#E8F5E9;font-size:0.8rem;"><div style="color:var(--success);font-weight:600;margin-bottom:4px;">✓ 商业目的真实</div>东南亚客户服务有真实需求</div>
+      <div style="text-align:center;padding:16px;background:#E8F5E9;font-size:0.8rem;"><div style="color:var(--success);font-weight:600;margin-bottom:4px;">✓ 交易实质完整</div>书面文件+银行流水+审计报告</div>
+      <div style="text-align:center;padding:16px;background:#E8F5E9;font-size:0.8rem;"><div style="color:var(--success);font-weight:600;margin-bottom:4px;">✓ 申报无隐瞒</div>内地境外收入完整披露</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 14: Journalist Review ============ -->
+<div class="slide" data-index="13">
+  <div class="slide-inner">
+    <div class="slide-num">14 / Review 3</div>
+    <h2 class="slide-title">调查记者审查结论</h2>
+    <div class="gold-line"></div>
+    <div class="quote-box">
+      <p>我调查了这个人的香港公司：
+      <br><br>有 4 名员工，LinkedIn 可查，科学园办公室实地存在。有真实的东南亚客户，合同和发票可验证。参加了 2023 年曼谷工业展，有照片和展位记录。
+      <br><br>购置的物业有真实租客（一家新加坡贸易公司），租约可查。陈先生每年从香港获得的收入都在内地交了税。
+      <br><br>
+      <strong style="color:var(--success);">结论：这不是一个「藏钱」的人，这是一个在香港认真做生意的企业家。</strong></p>
+      <span class="quote-author">— 调查记者 · 财经媒体 · 10 年跨境资本追踪经验</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;">
+      <div style="text-align:center;padding:16px;background:#E8F5E9;font-size:0.8rem;"><div style="color:var(--success);font-weight:600;margin-bottom:4px;">✓ 员工可查</div>LinkedIn + MPF + 薪俸税</div>
+      <div style="text-align:center;padding:16px;background:#E8F5E9;font-size:0.8rem;"><div style="color:var(--success);font-weight:600;margin-bottom:4px;">✓ 客户可验证</div>合同 + 发票 + 展会记录</div>
+      <div style="text-align:center;padding:16px;background:#E8F5E9;font-size:0.8rem;"><div style="color:var(--success);font-weight:600;margin-bottom:4px;">✓ 税务透明</div>内地境外收入完整申报</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 15: Checklist + Summary ============ -->
+<div class="slide" data-index="14">
+  <div class="slide-inner" style="text-align:center;">
+    <div class="slide-num">15 / Checklist</div>
+    <h2 class="slide-title">你的架构能过几关？</h2>
+    <div class="gold-line center"></div>
+    <p class="slide-subtitle" style="margin:0 auto 28px;">10 条自检项——打印出来，逐条核对</p>
+    <div class="checklist" style="text-align:left;">
+      <div class="check-item"><div class="check-box"></div><div><strong>真实员工</strong> — 公司至少有 1 名全职员工，有雇佣合同、MPF 记录、薪俸税申报</div></div>
+      <div class="check-item"><div class="check-box"></div><div><strong>真实办公</strong> — 有商业办公场地，有租约或产权证明，不是住宅地址</div></div>
+      <div class="check-item"><div class="check-box"></div><div><strong>真实客户</strong> — 有非关联方的客户/供应商合同、发票、银行流水</div></div>
+      <div class="check-item"><div class="check-box"></div><div><strong>利润不为零</strong> — 公司有真实成本，利润率合理，不是 100% 关联方流出</div></div>
+      <div class="check-item"><div class="check-box"></div><div><strong>利润有留存</strong> — 每年留存合理比例用于再投资，不是全部流回股东</div></div>
+      <div class="check-item"><div class="check-box"></div><div><strong>贷款市场可比</strong> — 有利率、有期限、有担保、有还款计划、有书面协议</div></div>
+      <div class="check-item"><div class="check-box"></div><div><strong>资金链条完整</strong> — 每一笔资金进出都有对应的合同、发票、银行记录</div></div>
+      <div class="check-item"><div class="check-box"></div><div><strong>物业有「毛刺」</strong> — 有维修支出、有空置期、有折旧，不是零成本运营</div></div>
+      <div class="check-item"><div class="check-box"></div><div><strong>内地申报完整</strong> — 境外持股、境外收入、境外资产全部如实申报</div></div>
+      <div class="check-item"><div class="check-box"></div><div><strong>有审计报告</strong> — 年度财务报表经独立审计，审计意见无保留</div></div>
+    </div>
+    <div style="margin-top:32px;padding:20px 28px;background:var(--charcoal);color:var(--ivory);max-width:640px;margin-left:auto;margin-right:auto;">
+      <div style="font-family:'Noto Serif SC',serif;font-size:1.1rem;letter-spacing:0.08em;margin-bottom:8px;">Charlie Munger 终极洞见</div>
+      <div style="font-size:0.85rem;line-height:1.7;opacity:0.9;">
+        架构的安全边际不在于「它有多复杂」，而在于「它有多真实」。<br>
+        当你把全部文件摊在桌上，请一位税务师、一位法官、一位记者同时审查——<br>
+        <strong>他们是否能一致得出结论：这个架构有真实商业目的。</strong>
+      </div>
+    </div>
+    <div style="margin-top:20px;font-size:0.75rem;color:var(--gray);">
+      本资料仅供专业研究参考，不构成正式税务或法律意见 | 具体个案应咨询持牌专业人士
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- Controls -->
+<div class="controls-bar">
+  <button class="nav-btn" id="prevBtn">←</button>
+  <div class="slide-counter"><span id="currentSlide">1</span> / 15</div>
+  <div class="dots-wrap" id="dotsContainer"></div>
+  <button class="nav-btn" id="nextBtn">→</button>
+</div>
+
+<script>
+(function(){
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  function showSlide(i) {
+    if (i < 0) i = 0;
+    if (i >= total) i = total - 1;
+    current = i;
+    slides.forEach((s, idx) => {
+      s.classList.toggle('active', idx === current);
+    });
+    updateDots();
+    document.getElementById('currentSlide').textContent = current + 1;
+  }
+
+  function updateDots() {
+    const container = document.getElementById('dotsContainer');
+    container.innerHTML = '';
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('span');
+      d.className = 'dot' + (i === current ? ' active' : '');
+      d.addEventListener('click', () => showSlide(i));
+      container.appendChild(d);
+    }
+  }
+
+  document.getElementById('prevBtn').addEventListener('click', () => showSlide(current - 1));
+  document.getElementById('nextBtn').addEventListener('click', () => showSlide(current + 1));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') showSlide(current + 1);
+    if (e.key === 'ArrowLeft') showSlide(current - 1);
+  });
+
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 50) showSlide(diff > 0 ? current + 1 : current - 1);
+  });
+
+  updateDots();
+})();
+</script>
+
+</body>
+</html>

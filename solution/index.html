@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>从被动穿透到主动重塑 · 跨境资产合规战略方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/styles.css">
+  <style>
+    /* Page-specific overrides */
+    .hero { text-align: center; padding: 90px 0 50px; }
+    .hero h1 { font-size: clamp(1.5rem, 3.5vw, 2.1rem); letter-spacing: 0.1em; font-weight: 300; }
+    .hero .gold-line { margin: 22px auto; }
+    .hero p { color: var(--muted-gray); font-size: 0.88rem; letter-spacing: 0.06em; max-width: 560px; margin: 0 auto; line-height: 1.8; }
+
+    .manifesto-box { border: 1px solid var(--charcoal-black); padding: 48px; background: #fff; margin-bottom: 32px; border-radius: 18px; overflow: hidden; box-shadow: 0 8px 32px rgba(26,26,26,0.03); }
+    .manifesto-quote { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400; color: var(--hermes-orange); letter-spacing: 0.05em; margin-bottom: 24px; text-align: center; }
+    .manifesto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; margin-top: 32px; border-top: 1px solid var(--border-line); padding-top: 32px; }
+    .manifesto-item h4 { font-family: var(--font-serif); font-size: 1rem; font-weight: 500; margin-bottom: 10px; color: var(--charcoal-black); line-height: 1.5; }
+    .manifesto-item p { font-size: 0.88rem; color: #555; line-height: 1.8; text-align: justify; }
+
+    .architect-table { width: 100%; border-collapse: collapse; margin-top: 24px; background: transparent; }
+    .architect-table th { border-bottom: 2px solid var(--charcoal-black); padding: 16px 14px; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.1em; text-align: left; color: var(--charcoal-black); }
+    .architect-table td { border-bottom: 1px solid var(--border-line); padding: 20px 14px; font-size: 0.86rem; vertical-align: top; line-height: 1.7; }
+    .table-dimension { font-weight: 500; color: var(--hermes-orange); width: 14%; white-space: nowrap; }
+    .table-question { color: var(--charcoal-black); width: 46%; padding-right: 24px; }
+    .table-resource { color: var(--muted-gray); width: 40%; }
+
+    .special-architecture { background: #fff; border: 1px solid var(--hermes-orange); padding: 44px; margin-top: 24px; border-radius: 18px; overflow: hidden; box-shadow: 0 8px 32px rgba(26,26,26,0.03); }
+    .arch-flow { display: flex; flex-direction: column; gap: 22px; margin: 32px 0; position: relative; }
+    .arch-node { background: #FAF6F0; border-left: 3px solid var(--hermes-orange); padding: 24px 28px; border-radius: 14px; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 4px 16px rgba(26,26,26,0.03); }
+    .arch-node:hover { transform: translateX(4px); box-shadow: 0 8px 24px rgba(26,26,26,0.06); }
+    .arch-node-title { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 500; color: var(--charcoal-black); margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .arch-node-title span { font-family: var(--font-sans); font-size: 0.7rem; background: var(--charcoal-black); color: var(--ivory-white); padding: 2px 10px; font-weight: 300; letter-spacing: 0.1em; }
+    .arch-node p { font-size: 0.88rem; color: #444; line-height: 1.8; }
+
+    .budget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 28px; border-top: 1px dashed var(--border-line); padding-top: 28px; }
+    .budget-block h6 { font-family: var(--font-serif); font-size: 0.9rem; font-weight: 500; color: var(--matte-gold); margin-bottom: 10px; }
+    .budget-block > p { font-size: 0.85rem; color: #555; margin-bottom: 10px; line-height: 1.7; }
+    .budget-list { font-size: 0.82rem; color: #555; list-style: none; }
+    .budget-list li { margin-bottom: 6px; display: flex; justify-content: space-between; border-bottom: 1px dotted var(--border-line); padding-bottom: 4px; line-height: 1.5; }
+    .budget-list li span { font-family: "Helvetica Neue", Arial, sans-serif; color: var(--charcoal-black); font-weight: 500; white-space: nowrap; margin-left: 12px; }
+    .budget-block > .disclaimer { margin-top: 10px; font-size: 0.75rem; font-style: italic; }
+
+    /* Tier wrapper - unified container */
+    .tier-wrapper { border: 1px solid var(--border-line); border-radius: 18px; padding: 48px 44px; background: linear-gradient(180deg, #FAF6F0 0%, #F7F2EB 100%); margin-top: 24px; box-shadow: 0 12px 40px rgba(26,26,26,0.04); }
+    .tier-container { display: flex; flex-direction: column; gap: 28px; }
+    .tier-row { background: #fff; border-radius: 16px; padding: 40px; box-shadow: 0 6px 28px rgba(26,26,26,0.05); border: 1px solid rgba(26,26,26,0.06); display: grid; grid-template-columns: 1fr 2.2fr 1fr; gap: 32px; align-items: start; transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s cubic-bezier(0.22,1,0.36,1); }
+    .tier-row:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(26,26,26,0.07); }
+    .tier-meta { display: flex; flex-direction: column; }
+    .tier-badge { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted-gray); margin-bottom: 8px; }
+    .tier-name { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400; color: var(--charcoal-black); letter-spacing: 0.04em; margin-bottom: 14px; line-height: 1.4; }
+    .tier-price { font-size: 1.05rem; font-weight: 400; color: var(--hermes-orange); font-family: "Helvetica Neue", Arial, sans-serif; line-height: 1.7; }
+    .tier-price span { font-size: 0.78rem; color: var(--muted-gray); font-weight: 300; }
+    .tier-content h5 { font-size: 0.92rem; font-weight: 500; margin-bottom: 12px; color: var(--matte-gold); display: flex; align-items: center; }
+    .tier-content h5::before { content: "◆"; font-size: 0.55rem; margin-right: 8px; color: var(--matte-gold); }
+    .tier-content p { font-size: 0.86rem; color: #333; margin-bottom: 16px; line-height: 1.8; text-align: justify; }
+    .weapon-box { background: rgba(197,160,89,0.04); border-left: 2px solid var(--matte-gold); border-radius: 10px; padding: 18px 20px; font-size: 0.85rem; line-height: 1.8; margin-bottom: 12px; }
+    .weapon-box strong { color: var(--charcoal-black); display: block; margin-bottom: 6px; font-size: 0.88rem; }
+    .tier-pain { font-size: 0.82rem; color: var(--muted-gray); border-left: 1px solid var(--border-line); padding-left: 20px; line-height: 1.7; word-break: break-word; overflow-wrap: break-word; min-width: 0; }
+
+    .safety-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 32px; }
+    .safety-card { border-top: 1px solid rgba(245,240,235,0.2); padding-top: 24px; border-radius: 12px; overflow: hidden; }
+    .safety-card h4 { font-family: var(--font-serif); font-size: 1rem; font-weight: 400; color: var(--hermes-orange); margin-bottom: 12px; letter-spacing: 0.05em; }
+    .safety-card p { font-size: 0.86rem; color: #CCCCCC; line-height: 1.8; text-align: justify; }
+    .node-list { margin-top: 12px; font-size: 0.8rem; color: var(--matte-gold); list-style: none; }
+    .node-list li { margin-bottom: 5px; display: flex; align-items: center; }
+    .node-list li::before { content: "—"; margin-right: 8px; }
+
+    @media (max-width: 900px) {
+      .manifesto-grid, .budget-grid, .safety-grid { grid-template-columns: 1fr; gap: 24px; }
+      .tier-wrapper { padding: 24px 20px; }
+      .tier-row { grid-template-columns: 1fr; gap: 18px; padding: 24px; }
+      .tier-pain { border-left: none; padding-left: 0; border-top: 1px dashed var(--border-line); padding-top: 14px; }
+      .tier-pain { border-left: none; padding-left: 0; border-top: 1px dashed var(--border-line); padding-top: 14px; }
+      .architect-table { font-size: 0.8rem; }
+      .architect-table td { padding: 12px 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="print-btn" id="printBtn" aria-label="打印页面">
+    <svg viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+    打印 / PDF
+  </button>
+
+  <nav class="mini-nav">
+    <div class="mini-nav-inner">
+      <div class="mini-nav-logo">CRS · 合规方案</div>
+      <div class="mini-nav-links">
+        <a href="#manifesto">战略</a>
+        <a href="#architect">定位</a>
+        <a href="#estate">信托架构</a>
+        <a href="#tiers">服务矩阵</a>
+        <a href="#safety">保障</a>
+        <a href="../risk/">← 查看风险</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- Hero -->
+    <header class="hero reveal">
+      <h1>从被动穿透到主动重塑</h1>
+      <p class="section-subtitle" style="margin-top:8px;margin-bottom:0;">CROSS-BORDER ASSET COMPLIANCE STRATEGY</p>
+      <div class="gold-line"></div>
+      <p>以合规为基石，以架构为工具，在全球税务透明化的浪潮中构建可验证、可持续的跨境资产防线。</p>
+    </header>
+
+    <!-- SECTION 1: Manifesto -->
+    <section id="manifesto">
+      <h2 class="section-title reveal">顶层战略部署</h2>
+      <p class="section-subtitle reveal">BEYOND THE 7-YEAR HORIZON</p>
+
+      <div class="manifesto-box reveal lift-hover">
+        <div class="manifesto-quote">"7年，只是身份的里程碑；而合规，是资产的无期徒刑。"</div>
+        <div class="manifesto-grid">
+          <div class="manifesto-item">
+            <h4>税法穿透的核心是「经济核心利益」，而非「一张身份证」</h4>
+            <p>许多持有人将目光聚焦于「7年拿永居」的终点线，误以为拿到香港永久居民身份证就能自动为过去的境外资产「洗白」。这是极其危险的认知错位。即使成功转换身份，若核心事业、主要资产源头、家庭常驻地依然在内地，在金税四期全球大数据下，仍可能被认定为内地税务居民，面临全球征税与追溯风险。</p>
+          </div>
+          <div class="manifesto-item">
+            <h4>跨世代的财富防御，远比7年漫长</h4>
+            <p>根据行业统计，全球约有 70% 的富裕家庭在第二代失去财富。核心原因并非投资失败，而是缺乏清晰的顶层治理架构，导致在 CRS 穿透、境外反避税追缴及家族财富交替中，资产迅速蒸发。我们为您搭建的并非应付当下审查的「临时创可贴」，而是将信托、OFC、LPF 等工具整合为系统性的合规组合拳，构建跨越时间的家族财富安全区。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Architect -->
+    <section id="architect" style="border-top:1px solid var(--border-line);">
+      <h2 class="section-title reveal">我们的定位：跨境资产合规总建筑师</h2>
+      <p class="section-subtitle reveal">INTEGRATED ARCHITECTURE VS PIECE MEAL WORK</p>
+
+      <p class="reveal" style="font-size:0.9rem;text-align:center;max-width:780px;margin:-24px auto 36px;color:#444;line-height:1.8;">
+        我们不代替会计师做账、不起草具体法律文件、不直接管理您的资产。我们做一件更重要的事：<strong>确保您的整个跨境资产版图在 CRS 的显微镜下经得起检验</strong>，消除单点咨询引发的决策冲突，实现四位一体的一站式整合。
+      </p>
+
+      <table class="architect-table reveal">
+        <thead>
+          <tr>
+            <th>核心维度</th>
+            <th>总建筑师直击的底层问题</th>
+            <th>跨国专家资源整合</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="table-dimension">身份规划</td>
+            <td class="table-question">您实际是哪些国家的税务居民？多重身份如何影响 CRS 的实际交换目的地？</td>
+            <td class="table-resource">移民律师、跨国税务顾问</td>
+          </tr>
+          <tr>
+            <td class="table-dimension">税务合规</td>
+            <td class="table-question">过去未申报的海外资产（如房产变现/租金流水）如何安全补救？未来如何合法节税？</td>
+            <td class="table-resource">国际注册会计师、税务律师</td>
+          </tr>
+          <tr>
+            <td class="table-dimension">资产架构</td>
+            <td class="table-question">您的离岸公司、信托、海外基金是否具备经济实质？是否会被强行穿透 UBO？</td>
+            <td class="table-resource">持牌信托经理、离岸公司法顾问</td>
+          </tr>
+          <tr>
+            <td class="table-dimension">代际传承</td>
+            <td class="table-question">资产如何安全完整地转移给下一代？如何避免因跨境税务引发布局震荡？</td>
+            <td class="table-resource">家族信托专家、家事法资深律师</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SECTION 3: Estate Trust -->
+    <section id="estate" style="border-top:1px solid var(--border-line);">
+      <h2 class="section-title reveal">专项高级方案：香港房地产信托三层防御架构</h2>
+      <p class="section-subtitle reveal">EXCLUSIVE REAL ESTATE TRUST THREE-TIER FIREWALL</p>
+
+      <div class="special-architecture reveal lift-hover">
+        <p style="font-size:0.9rem;color:#333;text-align:justify;line-height:1.8;margin-bottom:20px;">
+          针对持有大额香港物业的内地高净值业主，普通公司或离岸壳结构在 CRS 穿透法则下面临消极非金融机构（Passive NFE）的曝光风险。本专项方案通过搭建<strong>信托孤岛、离岸隔离、本地特设目的实体（SPV）与债权还本管道</strong>，在法律层面构建物理防御与合规层面的税务优化。
+        </p>
+
+        <div class="arch-flow">
+          <div class="arch-node reveal">
+            <div class="arch-node-title">顶层（信托层）— 海外不可撤销全权家族信托 <span>TRUST LEVEL</span></div>
+            <p>设立于离岸法区（如开曼 / BVI / 根西）的信托实体。从根源上将房产的「法律所有权」与「实益受益权」进行分离。通过非居民控制条款及递延分配机制，降低内地税务居民身份与境外资产流水在 CRS 交换下的直接关联度。</p>
+          </div>
+          <div class="arch-node reveal reveal-delay-2">
+            <div class="arch-node-title">中层（防火墙层）— 离岸控股公司 (BVI) <span>FIREWALL CO LEVEL</span></div>
+            <p>由顶层信托 100% 控股的离岸公司。其法律价值在于<strong>构建有限责任防火墙</strong>，阻断底层房地产特有的纠纷、诉讼或贷款违约风险向上蔓延至信托内的其他核心资产。未来若进行物业变现，可通过直接<strong>转让中层 BVI 股权</strong>的方式将「不动产变现」转化为「境外股权转让」，简化交易流程并降低相关税负成本。</p>
+          </div>
+          <div class="arch-node reveal reveal-delay-3">
+            <div class="arch-node-title">底层（融资与资产层）— 香港物业特设目的公司 (HK SPV) + 股东贷款机制 <span>ASSET SPV LEVEL</span></div>
+            <p>由中层 BVI 100% 持股的香港本地有限公司，直接登记于特区土地注册处名册。全面导入<strong>【股东贷款（Shareholder Loan）机制】</strong>：除极少额度作为注册资本外，其余购房款全部账面登记为中层 BVI 对 HK SPV 的「股东贷款」。未来不论是物业租金流入，还是整栋出售后的房款回笼，HK SPV 均可<strong>通过「偿还股东贷款本金」的会计科目将资金回流</strong>。还本金在一般情况下不视为应税利润，通常不产生额外税负（具体税务认定需结合交易结构及当地法规核定）。</p>
+          </div>
+        </div>
+
+        <div class="budget-grid">
+          <div class="budget-block">
+            <h6>方案统筹与设计收费（项目制）</h6>
+            <p>包含整体架构蓝图设计、两层公司税务筹划、股东贷款债权合同拟定、开户合规及第三方持牌机构遴选统筹。</p>
+            <div class="tier-price" style="font-size:1.25rem;margin-top:8px;">HK$ 180,000 - 280,000 <span style="color:var(--muted-gray);font-size:0.82rem;">/ 一次性</span></div>
+          </div>
+          <div class="budget-block">
+            <h6>后端口岸硬成本规费预算（参考区间）</h6>
+            <ul class="budget-list">
+              <li>海外家族信托设立费（信托公司 + 大律师） <span>约 HK$ 120,000 - 200,000</span></li>
+              <li>中层 BVI 与底层 HK SPV 设立与注册 <span>约 HK$ 30,000 - 50,000</span></li>
+              <li>年度后续日常维护（信托维护费 + 两层公司秘服） <span>约 HK$ 60,000 - 100,000 / 年</span></li>
+            </ul>
+            <p class="disclaimer" style="margin-top:10px;font-size:0.75rem;font-style:italic;color:var(--muted-gray);">
+              * 注：我们不从后端口岸规费中赚取佣金差价。凭借渠道优势，可协助将第三方规费议价至市场价的 85%-95%，折扣红利直接抵消大部分顾问统筹费。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: Service Tiers -->
+    <section id="tiers" style="border-top:1px solid var(--border-line);">
+      <h2 class="section-title reveal">全体系全球大数税收合规服务矩阵</h2>
+      <p class="section-subtitle reveal">THREE-TIER SERVICES &amp; CORE WEAPONS</p>
+
+      <div class="tier-wrapper reveal lift-hover">
+      <div class="tier-container">
+
+        <!-- TIER 1 -->
+        <div class="tier-row reveal lift-hover">
+          <div class="tier-meta">
+            <span class="tier-badge">LEVEL 01 / 资产体检</span>
+            <h3 class="tier-name">CRS 合规体检套餐</h3>
+            <div class="tier-price">HK$ 38,000 - 68,000</div>
+          </div>
+          <div class="tier-content">
+            <h5>全景盘点与风险确诊</h5>
+            <p>通过 1.5 - 2 小时的一对一结构化深度访谈，全面梳理您名下的全部国籍、居留身份、海外银行账户开立地、离岸公司运营状况及香港不动产持有现状。交付 30 页专业《CRS 风险评估报告》与《初步合规建议书》，明确自查补税、身份重塑、架构隔离三条路径的对策排序。</p>
+          </div>
+          <div class="tier-pain">
+            <strong>解决的底层痛点</strong><br>
+            破除海外资产的「信息不对称」，精准识别目前暴露在系统中的「裸奔账户」，为后续决策提供数据基础。
+          </div>
+        </div>
+
+        <!-- TIER 2 -->
+        <div class="tier-row reveal lift-hover">
+          <div class="tier-meta">
+            <span class="tier-badge">LEVEL 02 / 方案实施</span>
+            <h3 class="tier-name">合规架构设计套餐</h3>
+            <div class="tier-price">HK$ 150,000 - 350,000</div>
+          </div>
+          <div class="tier-content">
+            <h5>定制化方案落地与后端团队对接</h5>
+            <p>包含入门级全部内容，针对存在的中高风险展开深度的架构设计与实施。作为项目经理，统筹协调国际会计师与律师，确保各方在同一张图纸下产出互不冲突的兼容性文件。</p>
+            <div class="weapon-box">
+              <strong>【轻量型组合拳】普通离岸公司（OC）+ 股东贷款机制</strong><br>
+              若不设立信托，可通过轻量级离岸公司进行资产注入，将公司注册资本压至最低，其余资金以「股东贷款」形式贷给境外公司。未来公司收租或物业变现想抽回现金时，通过「偿还股东贷款本金」流程回流资金，有效降低常规分红在 CRS 下引发的账户变动申报风险（具体税务处理需视个案而定）。
+            </div>
+          </div>
+          <div class="tier-pain">
+            <strong>解决的底层痛点</strong><br>
+            绕过繁琐的公司减资程序，阻断境外租金和买房款直接冲刷个人账户，实现跨境资金回流路径的税务优化。
+          </div>
+        </div>
+
+        <!-- TIER 3 -->
+        <div class="tier-row reveal lift-hover">
+          <div class="tier-meta">
+            <span class="tier-badge">LEVEL 03 / 顶层顶配</span>
+            <h3 class="tier-name">家族办公室筹建套餐</h3>
+            <div class="tier-price">HK$ 500,000 - 1,000,000 <span>(一次性筹建)</span><br><br>HK$ 500,000 - 1,500,000 <span>/年 (年度监测)</span></div>
+          </div>
+          <div class="tier-content">
+            <h5>家族治理顶层设计与长期合规监测</h5>
+            <p>面向资产 2,000 万美金以上家族，定制《家族宪章》，设立家族理事会。重磅导入海外家族信托与香港本土基金工具的「双剑合璧」架构，将合规完全内化为家族长治久安的常态机制。</p>
+
+            <div class="weapon-box" style="margin-bottom:12px;">
+              <strong>【进攻型 · 大庄家架构】海外信托 ➡ 100%持有 ➡ 香港私人 OFC</strong><br>
+              OFC（开放式基金公司）在 CRS 架构下属于 Reporting FI（报告金融机构）。托管银行无权直接穿透审查其底层 UBO，在合规框架内优化申报路径。同时，OFC 内部投资合资格资产可适用香港统一基金免税条约（UFE），<strong>公司利得税可降至 0%</strong>（需满足特定条件）。最外层加设不可撤销信托，形成多层法律缓冲。
+            </div>
+
+            <div class="weapon-box">
+              <strong>【防守型 · 重隐密架构】海外信托 + 个人BVI ➡ 共同成立 ➡ 香港 LPF 基金</strong><br>
+              BVI 公司担任 GP 掌控底层实业投票权；海外信托担任 LP 仅享受分红收益。由于 <strong>LPF 的有限合伙人名册和合伙协议（LPA）不对公众开放</strong>，公众查询底层实业时只能看到 LPF 基金实体，持有人在公开信息层面获得更高层级的隐私保护。
+            </div>
+          </div>
+          <div class="tier-pain">
+            <strong>解决的底层痛点</strong><br>
+            追求资产的绝对隔离、跨代安全传承与隐私控制权，锁死跨境反避税风险。
+          </div>
+        </div>
+
+      </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: Safety -->
+    <section class="dark-section" id="safety" style="margin-top:60px;">
+      <div class="container" style="padding:0;">
+        <h2 class="section-title reveal">「前置报价 · 绝对保密」的安全保障</h2>
+        <p class="section-subtitle reveal" style="color:var(--muted-gray);">TRANSPARENCY &amp; CONFIDENTIALITY PROTOCOL</p>
+
+        <div class="safety-grid">
+          <div class="safety-card reveal">
+            <h4>严格的后端合作方「脱敏」流程</h4>
+            <p>我们深知客户资产信息极具敏感性。在项目执行、对接到后端的国际会计师或跨境律师时，我们全面采用「脱敏」流程——在起跑线上隐去您的完整身份信息。只有在您确认聘请、方案定稿并授权后，才会进行受控的身份合规披露，将信息暴露面降到最低。</p>
+          </div>
+
+          <div class="safety-card reveal reveal-delay-2">
+            <h4>100% 透明结算与严苛付款节点</h4>
+            <p>我们采用「前置报价、节点付费」的清澈收费模式，中途绝不追加任何多余顾问费。同时，依托总建筑师的渠道优势协助您与后方议价（通常可为您争取到市场价 85%-95% 的费率折扣，直接对冲顾问服务费）。</p>
+            <ul class="node-list">
+              <li><strong>前置签约首付：</strong>40% 启动项目</li>
+              <li><strong>核心交付物确认：</strong>40% 交付方案书初稿/评估报告</li>
+              <li><strong>项目圆满完成：</strong>20% 最终验收与总汇报</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <section>
+      <div class="disclaimer reveal" style="max-width:900px;margin:60px auto 40px;">
+        <strong>重要免责声明：</strong><br><br>
+        1. 本文件所述架构、方案及收费标准仅供专业研究参考，不构成正式税务、法律或投资意见。<br>
+        2. CRS、CFC、受控外国企业规则及各地税法具有复杂性与时效性，具体个案应咨询持牌税务师、律师及法律顾问。<br>
+        3. 任何架构调整均需以合法合规为前提，不得用于规避法定申报义务。过往未申报的境外收入应主动向税务机关说明情况。<br>
+        4. 「0% 利得税」「免税」等表述均指在满足特定法定条件下的税务优化结果，不代表无条件适用。具体税务处理需结合交易结构、经济实质及当地法规核定。<br>
+        5. 本方案涉及跨境法律实体设立，需遵守各司法管辖区的反洗钱（AML）及实质经济法规要求。
+      </div>
+    </section>
+
+  </div>
+
+  <script src="../shared/scripts.js"></script>
+</body>
+</html>
